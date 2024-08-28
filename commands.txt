@@ -1,0 +1,14 @@
+//create new database 
+initdb --locale=C -E UTF-8 path_to_your_directory
+
+brew services start postgresql@16
+
+brew services stop postgresql@16
+
+brew services list
+
+//sync prisma with model 
+npx prisma db push
+
+//update client
+npx prisma generate

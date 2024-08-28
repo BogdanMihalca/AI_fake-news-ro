@@ -1,0 +1,66 @@
+2024-07-11 20:59:23.422 EEST [12379] LOG:  starting PostgreSQL 16.3 (Homebrew) on aarch64-apple-darwin23.4.0, compiled by Apple clang version 15.0.0 (clang-1500.3.9.4), 64-bit
+2024-07-11 20:59:23.424 EEST [12379] LOG:  listening on IPv6 address "::1", port 5432
+2024-07-11 20:59:23.424 EEST [12379] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-07-11 20:59:23.426 EEST [12379] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-07-11 20:59:23.428 EEST [12382] LOG:  database system was shut down at 2024-07-11 20:59:04 EEST
+2024-07-11 20:59:23.430 EEST [12379] LOG:  database system is ready to accept connections
+2024-07-11 21:04:23.429 EEST [12380] LOG:  checkpoint starting: time
+2024-07-11 21:04:27.694 EEST [12380] LOG:  checkpoint complete: wrote 45 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=4.255 s, sync=0.003 s, total=4.265 s; sync files=11, longest=0.001 s, average=0.001 s; distance=269 kB, estimate=269 kB; lsn=0/154F0A8, redo lsn=0/154F070
+2024-07-11 21:06:13.892 EEST [20712] FATAL:  role "postgres" does not exist
+2024-07-18 20:15:54.177 EEST [57646] LOG:  could not receive data from client: Connection reset by peer
+2024-07-18 20:16:51.203 EEST [12380] LOG:  checkpoint starting: time
+2024-07-18 20:16:55.000 EEST [12380] LOG:  checkpoint complete: wrote 38 buffers (0.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=3.780 s, sync=0.007 s, total=3.798 s; sync files=36, longest=0.002 s, average=0.001 s; distance=152 kB, estimate=257 kB; lsn=0/1575440, redo lsn=0/1575408
+2024-07-18 20:36:51.020 EEST [12380] LOG:  checkpoint starting: time
+2024-07-18 20:36:53.773 EEST [12380] LOG:  checkpoint complete: wrote 28 buffers (0.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=2.742 s, sync=0.005 s, total=2.753 s; sync files=21, longest=0.002 s, average=0.001 s; distance=70 kB, estimate=238 kB; lsn=0/1586EF0, redo lsn=0/1586EB8
+2024-07-18 20:38:03.862 EEST [65943] LOG:  could not receive data from client: Connection reset by peer
+2024-07-18 20:41:51.775 EEST [12380] LOG:  checkpoint starting: time
+2024-07-18 20:41:53.002 EEST [12380] LOG:  checkpoint complete: wrote 13 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.219 s, sync=0.003 s, total=1.228 s; sync files=12, longest=0.001 s, average=0.001 s; distance=37 kB, estimate=218 kB; lsn=0/1590598, redo lsn=0/1590560
+2024-07-22 19:50:02.153 EEST [62755] LOG:  could not receive data from client: Connection reset by peer
+2024-07-22 19:50:02.169 EEST [62757] ERROR:  relation "_prisma_migrations" does not exist at character 126
+2024-07-22 19:50:02.169 EEST [62757] STATEMENT:  SELECT "id", "checksum", "finished_at", "migration_name", "logs", "rolled_back_at", "started_at", "applied_steps_count" FROM "_prisma_migrations" ORDER BY "started_at" ASC
+2024-07-22 19:50:02.404 EEST [12380] LOG:  checkpoint starting: immediate force wait
+2024-07-22 19:50:02.409 EEST [12380] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.005 s; sync files=4, longest=0.001 s, average=0.001 s; distance=4334 kB, estimate=4334 kB; lsn=0/19CC0F8, redo lsn=0/19CC0C0
+2024-07-22 19:50:02.594 EEST [62767] FATAL:  terminating connection due to administrator command
+2024-07-22 19:50:02.695 EEST [12380] LOG:  checkpoint starting: immediate force wait
+2024-07-22 19:50:02.703 EEST [12380] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 1 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.009 s; sync files=7, longest=0.001 s, average=0.001 s; distance=4335 kB, estimate=4335 kB; lsn=0/1E07D60, redo lsn=0/1E07D28
+2024-07-22 19:50:17.776 EEST [62757] ERROR:  table "_prisma_migrations" does not exist
+2024-07-22 19:50:17.776 EEST [62757] STATEMENT:  DROP TABLE _prisma_migrations
+2024-07-22 19:50:17.929 EEST [12380] LOG:  checkpoint starting: immediate force wait
+2024-07-22 19:50:17.942 EEST [12380] LOG:  checkpoint complete: wrote 56 buffers (0.3%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.009 s, sync=0.002 s, total=0.013 s; sync files=44, longest=0.001 s, average=0.001 s; distance=4557 kB, estimate=4557 kB; lsn=0/227B480, redo lsn=0/227B448
+2024-07-22 19:50:18.094 EEST [62862] FATAL:  terminating connection due to administrator command
+2024-07-22 19:50:18.195 EEST [12380] LOG:  checkpoint starting: immediate force wait
+2024-07-22 19:50:18.198 EEST [12380] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=4, longest=0.001 s, average=0.001 s; distance=4335 kB, estimate=4535 kB; lsn=0/26B72E8, redo lsn=0/26B72B0
+2024-07-22 19:50:35.040 EEST [63340] LOG:  could not receive data from client: Connection reset by peer
+2024-07-22 19:50:35.248 EEST [12380] LOG:  checkpoint starting: immediate force wait
+2024-07-22 19:50:35.262 EEST [12380] LOG:  checkpoint complete: wrote 66 buffers (0.4%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.009 s, sync=0.004 s, total=0.014 s; sync files=70, longest=0.001 s, average=0.001 s; distance=4721 kB, estimate=4721 kB; lsn=0/2B53AB0, redo lsn=0/2B53A78
+2024-07-22 19:50:35.453 EEST [12380] LOG:  checkpoint starting: immediate force wait
+2024-07-22 19:50:35.457 EEST [12380] LOG:  checkpoint complete: wrote 24 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.005 s; sync files=14, longest=0.001 s, average=0.001 s; distance=4505 kB, estimate=4700 kB; lsn=0/2FBA140, redo lsn=0/2FBA108
+2024-07-22 19:50:35.594 EEST [63348] FATAL:  terminating connection due to administrator command
+2024-07-22 19:50:35.696 EEST [12380] LOG:  checkpoint starting: immediate force wait
+2024-07-22 19:50:35.698 EEST [12380] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=4, longest=0.001 s, average=0.001 s; distance=4461 kB, estimate=4676 kB; lsn=0/34157B0, redo lsn=0/3415778
+2024-07-22 19:50:35.862 EEST [63359] FATAL:  terminating connection due to administrator command
+2024-07-22 19:50:35.964 EEST [12380] LOG:  checkpoint starting: immediate force wait
+2024-07-22 19:50:35.967 EEST [12380] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=4, longest=0.001 s, average=0.001 s; distance=4461 kB, estimate=4654 kB; lsn=0/3870F28, redo lsn=0/3870EF0
+2024-07-22 19:55:35.967 EEST [12380] LOG:  checkpoint starting: time
+2024-07-22 19:55:36.078 EEST [12380] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.103 s, sync=0.002 s, total=0.112 s; sync files=2, longest=0.002 s, average=0.001 s; distance=0 kB, estimate=4189 kB; lsn=0/38710A0, redo lsn=0/3871068
+2024-07-24 10:46:55.340 EEST [80311] LOG:  could not receive data from client: Connection reset by peer
+2024-07-24 10:51:50.850 EEST [12380] LOG:  checkpoint starting: time
+2024-07-24 10:51:51.373 EEST [12380] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.514 s, sync=0.001 s, total=0.526 s; sync files=6, longest=0.001 s, average=0.001 s; distance=21 kB, estimate=3772 kB; lsn=0/38766A8, redo lsn=0/3876670
+2024-07-24 14:00:03.387 EEST [12380] LOG:  checkpoint starting: time
+2024-07-24 14:00:04.426 EEST [12380] LOG:  checkpoint complete: wrote 11 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=1.027 s, sync=0.004 s, total=1.039 s; sync files=8, longest=0.002 s, average=0.001 s; distance=10 kB, estimate=3396 kB; lsn=0/38791F0, redo lsn=0/38791B8
+2024-07-24 14:05:03.426 EEST [12380] LOG:  checkpoint starting: time
+2024-07-24 14:05:04.051 EEST [12380] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.616 s, sync=0.002 s, total=0.626 s; sync files=4, longest=0.001 s, average=0.001 s; distance=8 kB, estimate=3057 kB; lsn=0/387B2D8, redo lsn=0/387B2A0
+2024-07-24 16:26:53.265 EEST [12380] LOG:  checkpoint starting: time
+2024-07-24 16:26:53.588 EEST [12380] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.310 s, sync=0.003 s, total=0.324 s; sync files=4, longest=0.002 s, average=0.001 s; distance=1 kB, estimate=2752 kB; lsn=0/387B748, redo lsn=0/387B710
+2024-07-24 20:18:02.292 EEST [12380] LOG:  checkpoint starting: time
+2024-07-24 20:18:02.610 EEST [12380] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.309 s, sync=0.002 s, total=0.319 s; sync files=4, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=2476 kB; lsn=0/387BA58, redo lsn=0/387BA20
+2024-07-24 20:23:02.613 EEST [12380] LOG:  checkpoint starting: time
+2024-07-24 20:23:02.929 EEST [12380] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.306 s, sync=0.002 s, total=0.316 s; sync files=4, longest=0.001 s, average=0.001 s; distance=1 kB, estimate=2229 kB; lsn=0/387BFD0, redo lsn=0/387BF98
+2024-07-24 20:33:02.909 EEST [12380] LOG:  checkpoint starting: time
+2024-07-24 20:33:03.021 EEST [12380] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.103 s, sync=0.003 s, total=0.113 s; sync files=2, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=2006 kB; lsn=0/387C3A0, redo lsn=0/387C368
+2024-07-24 22:27:47.643 EEST [12379] LOG:  received smart shutdown request
+2024-07-24 22:27:47.646 EEST [12379] LOG:  background worker "logical replication launcher" (PID 12385) exited with exit code 1
+2024-07-24 22:27:47.646 EEST [12380] LOG:  shutting down
+2024-07-24 22:27:47.649 EEST [12380] LOG:  checkpoint starting: shutdown immediate
+2024-07-24 22:27:47.661 EEST [12380] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.007 s, sync=0.001 s, total=0.014 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=1805 kB; lsn=0/387C450, redo lsn=0/387C450
+2024-07-24 22:27:47.676 EEST [12379] LOG:  database system is shut down
