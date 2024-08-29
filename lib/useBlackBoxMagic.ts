@@ -1,10 +1,11 @@
 import { useState } from "react";
 
 const useBlackBoxMagic = () => {
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<{ label: string; score: any }[]>([]);
   const [ready, setReady] = useState<boolean | null>(null);
 
   const blackboxify = async (text: string) => {
+    setResult([]);
     if (!text) {
       console.log("%c Blackboxify [ERROR]: test missing", "color: red");
       return;

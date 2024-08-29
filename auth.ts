@@ -5,7 +5,6 @@ import Google from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
 import { getUserFromDb, isSamePassword } from "./app/api/auth/utils";
-import { stat } from "fs";
 
 const prisma = new PrismaClient();
 
