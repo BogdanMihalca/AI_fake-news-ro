@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import "./ChooseFilesForm.scss";
 import { Badge } from "@/components/ui/badge";
@@ -29,18 +29,12 @@ export interface File {
   type: string;
 }
 
-export interface FileList {
-  [Symbol.iterator](): IterableIterator<File>;
-  length: number;
-  item(index: number): File | null;
-}
-
 const formSchema = z.object({
-  files: z.instanceof(FileList),
+  files: z.any(),
 });
 
 interface ChooseFilesFromProps {
-  onFilesSelected: (files: FileList | null) => void;
+  onFilesSelected: (files: any) => void;
   onCommit: () => void;
   isLoading?: boolean;
   numberOfFiles?: number;
@@ -128,7 +122,7 @@ const ChooseFilesFrom: FC<ChooseFilesFromProps> = ({
             // display selected files as badges each having an x to remove it
             form.getValues().files && (
               <div>
-                {Array.from(form.getValues().files).map((file) => (
+                {Array.from(form.getValues().files).map((file: any) => (
                   <div key={file.name}>
                     <Badge variant="destructive" className="m-1">
                       <span>{file.name}</span>
@@ -138,9 +132,9 @@ const ChooseFilesFrom: FC<ChooseFilesFromProps> = ({
                         onClick={() => {
                           const newFiles = Array.from(
                             form.getValues().files
-                          ).filter((f: File) => f.name !== file.name);
+                          ).filter((f: any) => f.name !== file.name);
                           let data = new DataTransfer();
-                          newFiles.forEach((f) => data.items.add(f));
+                          newFiles.forEach((f: any) => data.items.add(f));
 
                           // Remove the file from the form value
                           form.setValue("files", data.files, {

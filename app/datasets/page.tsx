@@ -7,7 +7,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import ChooseFilesFrom from "../../components/dataset/ChooseFilesForm";
 import DataTable from "@/components/common/DataTable/DataTable";
 import { getColumns } from "../../components/dataset/dataTableColumns";
-import { FileList } from "../../components/dataset/ChooseFilesForm";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -74,7 +73,7 @@ const TaggingPage = () => {
     return Array.from(tags);
   }, [dataset]);
 
-  const onFilesSelected = (files: FileList | null) => {
+  const onFilesSelected = (files: any) => {
     if (!files) return;
     setIsLoading(true);
     // each file is a json file with array of objects
