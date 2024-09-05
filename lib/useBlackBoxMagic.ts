@@ -57,7 +57,13 @@ const useBlackBoxMagic = () => {
         });
       } else {
         logMessage("INFO", "Attempting to get result from URL: ", text);
-        response = await fetch(`/api/blackboxmagic?url=${text}`);
+        response = await fetch(`/api/blackboxmagic`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ url: text }),
+        });
       }
 
       if (!response.ok) {

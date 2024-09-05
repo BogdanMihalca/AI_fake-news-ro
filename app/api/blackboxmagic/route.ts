@@ -48,9 +48,9 @@ export const POST = auth(async function POST(
   });
 });
 
-export const GET = auth(async function GET(request: NextRequest) {
-  const queryData = request.url.split("?")[1];
-  const query = queryData.split("=")[1];
+export const PUT = auth(async function PUT(request: NextRequest) {
+  const body = await request.json();
+  const query = body.url;
 
   // validate if the URL is valid using lodash
   if (!query) {
