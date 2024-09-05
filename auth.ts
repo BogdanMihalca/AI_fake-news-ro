@@ -5,6 +5,9 @@ import Google from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
 import { getUserFromDb, isSamePassword } from "./app/api/auth/utils";
+import { v4 as uuid } from "uuid";
+import { encode as defaultEncode } from "next-auth/jwt";
+import { cookies } from "next/headers";
 
 const prisma = new PrismaClient();
 
@@ -53,23 +56,45 @@ export const options: NextAuthConfig = {
       },
     }),
   ],
-  // callbacks: {
-  //   authorized({ request, auth }) {
-  //     const { pathname } = request.nextUrl;
-  //     if (pathname === "/middleware-example") return !!auth;
-  //     return true;
-  //   },
-  //   jwt({ token, trigger, session, account }) {
-  //     if (trigger === "update") token.name = session.user.name;
-  //     if (account?.provider === "keycloak") {
-  //       return { ...token, accessToken: account.access_token };
-  //     }
-  //     return token;
-  //   },
-  // },
+  callbacks: {
+    session({ session, user }) {
+      session.user = user;
+      return session;
+    },
+    async jwt({ token, account }) {
+      if (account?.provider === "credentials") {
+        token.credentials = true;
+      }
+      return token;
+    },
+  },
+  jwt: {
+    encode: async function (params) {
+      if (params.token?.credentials) {
+        const sessionToken = uuid();
+        await prisma.session.create({
+          data: {
+            sessionToken,
+            userId: params.token.sub as string,
+            expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+          },
+        });
+
+        const cks = cookies();
+        cks.set({
+          name: "next-auth.session-token",
+          value: sessionToken,
+          expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+        });
+
+        return sessionToken;
+      }
+      return defaultEncode(params);
+    },
+  },
   debug: process.env.NODE_ENV !== "production" ? true : false,
   session: {
-    strategy: "jwt",
+    strategy: "database",
     maxAge: 1 * 24 * 60 * 60, // 1 day
   },
 };

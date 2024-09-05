@@ -1,20 +1,23 @@
 import prisma from "@/lib/prisma";
+import { orderBy } from "lodash";
 
 export const getDatasetItems = async () => {
   const dataset = await prisma.dataSetItem.findMany();
-  return dataset;
+  return orderBy(dataset, "updatedAt", "desc");
 };
 
 export const updateDatasetItem = async (data: {
   id: number;
   tag: string;
   content: string;
+  user: string;
 }) => {
   const dataset = await prisma.dataSetItem.update({
     where: { id: data.id },
     data: {
       tag: data.tag,
       content: data.content,
+      updatedBy: data.user,
     },
   });
   return dataset;

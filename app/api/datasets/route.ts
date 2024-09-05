@@ -6,9 +6,12 @@ import {
   updateDatasetItem,
   insertDatasetItems,
 } from "../datasetItems";
-import { json } from "stream/consumers";
 import { auth } from "@/auth";
 
+/* 
+Get all dataset items
+*/
+// eslint-disable-next-line
 export async function GET(req: NextRequest) {
   const dataset = await getDatasetItems();
   return new Response(JSON.stringify(dataset), {
@@ -18,17 +21,25 @@ export async function GET(req: NextRequest) {
   });
 }
 
+/*
+Deletes all dataset items
+and inserts the new ones
+*/
 export const POST = auth(async function POST(req: NextRequest & { auth: any }) {
   if (!req.auth)
     return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+  if (req.auth?.user?.role !== "ADMIN")
+    return NextResponse.json(
+      { message: "Not enough permissions" },
+      { status: 401 }
+    );
 
   const body = await req.json();
   // i will receive a list of objects with content and tag properties
   const data = body.datasetItems;
-  const user = body.user;
   //clear the
   await clearDatasetItems();
-  await insertDatasetItems(data, user);
+  await insertDatasetItems(data, "admin");
 
   return NextResponse.json(
     { message: "Data saved successfully" },
@@ -36,6 +47,9 @@ export const POST = auth(async function POST(req: NextRequest & { auth: any }) {
   );
 });
 
+/* 
+Delete a dataset item
+*/
 export const DELETE = auth(async function DELETE(
   req: NextRequest & { auth: any }
 ) {
@@ -43,6 +57,12 @@ export const DELETE = auth(async function DELETE(
 
   if (!req.auth)
     return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+
+  if (req.auth?.user?.role !== "ADMIN")
+    return NextResponse.json(
+      { message: "Not enough permissions" },
+      { status: 401 }
+    );
 
   await deleteDatasetItem(Number(id));
 
@@ -52,11 +72,22 @@ export const DELETE = auth(async function DELETE(
   );
 });
 
+/* 
+Update a dataset item
+*/
 export const PUT = auth(async function PUT(req: NextRequest & { auth: any }) {
   if (!req.auth)
     return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+  if (req.auth?.user?.role !== "ADMIN")
+    return NextResponse.json(
+      { message: "Not enough permissions" },
+      { status: 401 }
+    );
+
   const data = await req.json();
-  await updateDatasetItem(data);
+  const user = req.auth?.user?.email;
+
+  await updateDatasetItem({ ...data, user });
   return Response.json(
     { message: "Data updated successfully" },
     {

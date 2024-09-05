@@ -18,24 +18,17 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import "./page.scss";
-import { omit } from "lodash";
+import { omit, set } from "lodash";
 import { useToast } from "@/components/ui/use-toast";
 import { useSession } from "next-auth/react";
 import InsightsOverview from "../../components/common/InsightsOverview";
+import { Skeleton } from "@/components/ui/skeleton";
+import { CreateEditItemDialog } from "@/components/dataset/CreateEditItemDialog";
+import { DataSetItem } from "@prisma/client";
 
 const TaggingPage = () => {
   const [dataset, setDataset] = useState<any[]>([]);
-  const [dataRaw, setDataRaw] = useState<
-    {
-      id: number;
-      content: string;
-      tag: string;
-      createdBy: string;
-      createdAt: Date;
-      updatedAt: Date;
-      updatedBy: string;
-    }[]
-  >([]);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
 
   const [fileObjects, setFileObjects] = useState<any[]>([]);
   const [showAlert, setShowAlert] = useState(false);
@@ -44,21 +37,27 @@ const TaggingPage = () => {
 
   const [numberOfFiles, setNumberOfFiles] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingData, setIsLoadingData] = useState(false);
   const { toast } = useToast();
 
-  const session = useSession();
+  const { data: session, status } = useSession();
 
   const fetchDataset = useCallback(async () => {
-    const dataset = await fetch("/api/datasets").then((res) => {
-      return res.json();
-    });
+    setIsLoadingData(true);
+    const dataset = await fetch("/api/datasets", { cache: "no-store" }).then(
+      (res) => {
+        return res.json();
+      }
+    );
 
     setDataset(
-      dataset.map((item: any) => ({
+      dataset.map((item: any, i: number) => ({
+        id: item.id,
+        displayId: i + 1,
         ...omit(item, ["createdBy", "updatedBy", "createdAt", "updatedAt"]),
       }))
     );
-    setDataRaw(dataset);
+    setIsLoadingData(false);
   }, []);
 
   useEffect(() => {
@@ -118,7 +117,6 @@ const TaggingPage = () => {
       method: "POST",
       body: JSON.stringify({
         datasetItems: normalizedData,
-        user: "admin",
       }),
     })
       .then(async (r) => {
@@ -151,7 +149,7 @@ const TaggingPage = () => {
         if (!r.ok) {
           throw new Error(r.statusText);
         }
-        fetchDataset();
+        setDataset(dataset.filter((item) => item.id !== selectedItem));
         toast({
           title: "Data Deleted Successfully",
           variant: "success",
@@ -169,7 +167,7 @@ const TaggingPage = () => {
     setSelectedItem(null);
   };
 
-  const onUpdated = (id: number, tag: string) => {
+  const onUpdatedTag = (id: number, tag: string) => {
     const dataItem = dataset.find((item) => item.id === id);
     if (!dataItem) return;
     fetch(`/api/datasets`, {
@@ -179,6 +177,43 @@ const TaggingPage = () => {
         tag,
         content: dataItem.content,
       }),
+    })
+      .then(async (r) => {
+        if (!r.ok) {
+          throw new Error(r.statusText);
+        }
+        setDataset((prev) =>
+          prev.map((item) => {
+            if (item.id === id) {
+              return set(item, "tag", tag);
+            }
+            return item;
+          })
+        );
+        toast({
+          title: "Data Updated Successfully",
+          variant: "success",
+        });
+      })
+      .catch((error) => {
+        toast({
+          title: "Data Update Failed",
+          description: error.message,
+          variant: "destructive",
+        });
+      });
+  };
+
+  const onEdit = (id: number) => {
+    setSelectedItem(id);
+    setIsOpenEdit(true);
+  };
+
+  const handleSave = (el: DataSetItem) => {
+    if (!el) return;
+    fetch(`/api/datasets`, {
+      method: "PUT",
+      body: JSON.stringify(el),
     })
       .then(async (r) => {
         if (!r.ok) {
@@ -197,6 +232,8 @@ const TaggingPage = () => {
           variant: "destructive",
         });
       });
+    setIsOpenEdit(false);
+    setSelectedItem(null);
   };
 
   return (
@@ -217,19 +254,53 @@ const TaggingPage = () => {
               <CardTitle>Data</CardTitle>
             </CardHeader>
             <CardContent className="pl-2">
-              <DataTable
-                columns={getColumns({
-                  data: dataset[0],
-                  isAuth: !!session.data?.user || false,
-                  onDelete: (e: number) => {
-                    setShowAlertDelete(true);
-                    setSelectedItem(e);
-                  },
-                  onUpdated,
-                  availableTags,
-                })}
-                data={(dataset as any[]) || []}
-              />
+              {isLoadingData ? (
+                // a table skeleton
+                <div className="w-full">
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-20 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-28 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-20 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-20 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-32 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                  <Skeleton className="h-8 m-4" />
+                </div>
+              ) : (
+                <DataTable
+                  columns={getColumns({
+                    data: dataset[0],
+                    isAuth:
+                      (!!session?.user && status === "authenticated") || false,
+                    hasPermission:
+                      (session?.user as any)?.role === "ADMIN" || false,
+                    onDelete: (e: number) => {
+                      setShowAlertDelete(true);
+                      setSelectedItem(e);
+                    },
+                    onUpdated: onUpdatedTag,
+                    onEdit,
+                    availableTags,
+                  })}
+                  data={(dataset as any[]) || []}
+                />
+              )}
             </CardContent>
           </Card>
           <Card className="col-span-2">
@@ -237,7 +308,7 @@ const TaggingPage = () => {
               <CardTitle>Overview</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <InsightsOverview key={dataRaw.length} />
+              <InsightsOverview />
             </CardContent>
           </Card>
         </div>
@@ -246,18 +317,21 @@ const TaggingPage = () => {
       <AlertDialog open={showAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle>
+              Esti 100% sigur ca doresti sa faci asta ?
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will delete all database
-              records. and insert the new ones from the selected files.
+              Aceasta actiune nu poate fi anulata. Toate inregistrarile din baza
+              de date vor fi sterse definitiv si inlocuite cu datele din
+              fisierele selectate.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setShowAlert(false)}>
-              Cancel
+              Anuleaza
             </AlertDialogCancel>
             <AlertDialogAction onClick={handleCommitToDB}>
-              Continue
+              Procedeaza
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -266,15 +340,17 @@ const TaggingPage = () => {
       <AlertDialog open={showAlertDelete}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle>
+              Esti 100% sigur ca doresti sa faci asta ?
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will delete all database
-              records.
+              Aceasta actiune nu poate fi anulata. Inregistrarea va fi stearsa
+              definitiv.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setShowAlertDelete(false)}>
-              Cancel
+              Anuleaza
             </AlertDialogCancel>
             <AlertDialogAction
               className="
@@ -284,11 +360,22 @@ const TaggingPage = () => {
             "
               onClick={handleDeleteItem}
             >
-              Continue
+              Sterge
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {isOpenEdit && (
+        <CreateEditItemDialog
+          onClose={() => setIsOpenEdit(false)}
+          onSave={(e) => {
+            handleSave(e);
+          }}
+          item={dataset.find((item) => item.id === selectedItem)}
+          availableTags={availableTags}
+        />
+      )}
     </>
   );
 };

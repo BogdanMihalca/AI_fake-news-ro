@@ -2,6 +2,9 @@ import { ChartConfig } from "@/components/ui/chart";
 import { getDatasetItems } from "../../datasetItems";
 import romanianStopWords from "./romanian_stopwords.json";
 
+/* 
+Get statistics for the dataset
+*/
 export const GET = async () => {
   const dataset = await getDatasetItems();
 
@@ -23,7 +26,7 @@ export const GET = async () => {
     processWordCloudDataToRemoveConnection(wordCloudData);
 
   const wordCloudDataChartConfig: ChartConfig = {};
-  wordCloudDataProcessed.forEach((element, i) => {
+  wordCloudDataProcessed.forEach((element) => {
     wordCloudDataChartConfig[element.name] = {
       label: element.name,
     };
@@ -44,7 +47,7 @@ export const GET = async () => {
   );
 
   const tagDistributionChartConfig: ChartConfig = {};
-  tagDistributionChartData.forEach((element, i) => {
+  tagDistributionChartData.forEach((element) => {
     tagDistributionChartConfig[element.tag] = {
       label: element.tag,
     };
@@ -72,7 +75,7 @@ export const GET = async () => {
   );
 
   const contentLengthByTagChartDataConfig: ChartConfig = {};
-  contentLengthByTagChartData.forEach((element, i) => {
+  contentLengthByTagChartData.forEach((element) => {
     contentLengthByTagChartDataConfig[element.tag] = {
       label: element.tag,
     };

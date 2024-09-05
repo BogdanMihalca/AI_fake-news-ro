@@ -25,15 +25,33 @@ import { Icons } from "../common/Icons";
 import { Separator } from "../ui/separator";
 import { LoginButton } from "./LoginButton";
 import { RegisterButton } from "./RegisterButton";
-import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth";
 
-const components: { title: string; href: string; description: string }[] = [
+const components: {
+  title: string;
+  href: string;
+  description: string;
+  target: String;
+}[] = [
   {
     title: "Veridica",
     href: "https://veridica.ro/baza-de-date",
+    target: "_blank",
     description:
       "O baza de date cu surse de știri verificate de jurnaliști profesioniști.",
+  },
+  {
+    title: "FakeRom",
+    href: "https://huggingface.co/datasets/mateiaass/FakeRom",
+    target: "_blank",
+    description:
+      "Un set de date cu știri false în limba română, colectate de pe diverse site-uri de știri.",
+  },
+  {
+    title: "Contributii de la utilizatori",
+    href: "#",
+    target: "",
+    description:
+      "Cotributii de la utilizatori prin intermediul tool-ului de feedback.",
   },
 ];
 
@@ -104,20 +122,20 @@ const Navbar = () => {
                       <p className="text-sm leading-tight text-muted-foreground">
                         O aplicație pentru detectarea știrilor false. folosind
                         machine learning. Detectarea știrilor false este un
-                        proces complex, care implică analiza conținutului, a
-                        sursei și a contextului.
+                        proces complex, care implică analiza conținutului și a
+                        contextului.
                       </p>
                     </a>
                   </NavigationMenuLink>
                 </li>
                 <ListItem href="/docs" title="Introducere">
-                  Informații generale despre aplicație.
+                  Introducere în problematica știrilor false.
                 </ListItem>
-                <ListItem href="/docs" title="Stiudiu Comparativ">
-                  Un studiu comparativ al unor modele de machine learning.
+                <ListItem href="/docs#modele_ia" title="Modele IA">
+                  Modele de inteligență artificială testate.
                 </ListItem>
-                <ListItem href="/docs" title="Concluzii">
-                  Concluzii și recomandări.
+                <ListItem href="/docs#evaluare" title="Evaluare">
+                  Evaluarea modelelor de IA.
                 </ListItem>
               </ul>
             </NavigationMenuContent>
@@ -131,6 +149,7 @@ const Navbar = () => {
                     key={component.title}
                     title={component.title}
                     href={component.href}
+                    target={component.target as any}
                   >
                     {component.description}
                   </ListItem>

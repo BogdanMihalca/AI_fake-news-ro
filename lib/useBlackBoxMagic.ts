@@ -1,41 +1,81 @@
+import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 
-const useBlackBoxMagic = () => {
-  const [result, setResult] = useState<{ label: string; score: any }[]>([]);
-  const [ready, setReady] = useState<boolean | null>(null);
+// Define types for result and API response
+interface Result {
+  label: string;
+  score: number;
+}
 
-  const blackboxify = async (text: string) => {
-    setResult([]);
+interface APIResponse {
+  results: Result[];
+  text: string;
+}
+
+const useBlackBoxMagic = () => {
+  const [result, setResult] = useState<APIResponse>();
+  const [ready, setReady] = useState<boolean | null>(null);
+  const { toast } = useToast();
+
+  const logMessage = (
+    type: "INFO" | "ERROR" | "SUCCESS",
+    message: string,
+    data?: any
+  ) => {
+    const color =
+      type === "INFO" ? "yellow" : type === "ERROR" ? "red" : "green";
+    console.log(
+      `%c Blackboxify [${type}]: ${message}`,
+      `color: ${color}`,
+      data
+    );
+  };
+
+  const blackboxify = async (text: string, type: "text" | "url") => {
     if (!text) {
-      console.log("%c Blackboxify [ERROR]: test missing", "color: red");
+      logMessage("ERROR", "Text missing");
+      toast({
+        title: "Text missing",
+        description: "Please enter some text or a URL",
+        variant: "destructive",
+      });
       return;
     }
-    if (ready === null) setReady(false);
+
+    setReady(false);
 
     try {
-      console.log(
-        "%c Blackboxify [INFO]: Attempting to get result",
-        "color: yellow",
-        text
-      );
-      const response = await fetch(
-        `/api/blackboxmagic?text=${encodeURIComponent(text)}`
-      );
-      const json = await response.json();
+      let response = null;
+      if (type === "text") {
+        logMessage("INFO", "Attempting to get result from text: ", text);
+        response = await fetch(`/api/blackboxmagic`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text }),
+        });
+      } else {
+        logMessage("INFO", "Attempting to get result from URL: ", text);
+        response = await fetch(`/api/blackboxmagic?url=${text}`);
+      }
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const json: APIResponse = await response.json();
       setResult(json);
-      console.log(
-        "%c Blackboxify [INFO]: Result success",
-        "color: green",
-        json
-      );
-    } catch (error) {
-      console.log(
-        "%c Blackboxify [ERROR]: Error getting result",
-        "color: red",
-        error
-      );
+      logMessage("SUCCESS", "Result success:", json);
+    } catch (error: any) {
+      logMessage("ERROR", "Error getting result:", error);
+      toast({
+        title: "Error getting result",
+        description: error.message as string,
+        variant: "destructive",
+      });
     } finally {
-      if (!ready) setReady(true);
+      setReady(true);
     }
   };
 

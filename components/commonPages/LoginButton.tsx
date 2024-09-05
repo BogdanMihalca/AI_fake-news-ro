@@ -38,7 +38,6 @@ import {
 } from "../ui/dropdown-menu";
 import { LogOut } from "lucide-react";
 import { Icons } from "../common/Icons";
-import { Label } from "../ui/label";
 
 const FormSchema = z.object({
   email: z.string().email("Invalid email address."),

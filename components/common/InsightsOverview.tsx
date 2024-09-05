@@ -28,8 +28,16 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import { useSession } from "next-auth/react";
 
 const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
+  const { status } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [stats, setStats] = useState<{
     wordCloudData: { name: string; value: number }[];
@@ -55,7 +63,7 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
 
   const fetchDatasetStats = useCallback(async () => {
     setIsLoading(true);
-    fetch("/api/datasets/stats")
+    fetch("/api/datasets/stats", { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         setStats(data);
@@ -76,19 +84,39 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
       <div
         className={`flex items-center  ${isHomePage ? "" : "justify-center"}`}
       >
-        <Button
-          className={`${isHomePage ? "mb-6" : "mx-auto"}`}
-          variant="outline"
-          onClick={fetchDatasetStats}
-        >
-          Refresh stats <RefreshCcw className="ml-4" />
-        </Button>
+        <TooltipProvider>
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger asChild>
+              <span tabIndex={0}>
+                <Button
+                  className={`${isHomePage ? "mb-6" : "mx-auto"}`}
+                  variant="outline"
+                  disabled={status !== "authenticated"}
+                  onClick={fetchDatasetStats}
+                >
+                  Refresh stats <RefreshCcw className="ml-4" />
+                </Button>
+              </span>
+            </TooltipTrigger>
+            {status !== "authenticated" && (
+              <TooltipContent>
+                <div className="text-center">
+                  Pentru a actuliza statistici trebuie sa fii autentificat
+                </div>
+              </TooltipContent>
+            )}
+          </Tooltip>
+        </TooltipProvider>
       </div>
-      <div className={isHomePage ? "flex justify-around space-x-4" : ""}>
+      <div
+        className={isHomePage ? "flex justify-around space-x-4 flex-wrap" : ""}
+      >
         {/* TAG PIE CHART */}
         <Card
           className={`flex flex-col  ${
-            !isHomePage ? "border-x-0 border-t-0 rounded-none " : "min-w-[33%]"
+            !isHomePage
+              ? "border-x-0 border-t-0 rounded-none "
+              : "mt-4 md:mt-0 min-w-[30%] flex-shrink-0"
           }`}
         >
           <CardHeader className="items-center pb-0">
@@ -169,10 +197,12 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
         {/* WORDS TREE MAP */}
         <Card
           className={`flex flex-col   ${
-            !isHomePage ? "border-x-0 border-t-0 rounded-none" : "min-w-[33%]"
+            !isHomePage
+              ? "border-x-0 border-t-0 rounded-none"
+              : " mt-4 md:mt-0 min-w-[33%] flex-shrink-0"
           }`}
         >
-          <CardHeader className="items-center pb-0">
+          <CardHeader className="items-center pb-0 ">
             <CardTitle className="text-sm">
               Frecventa aparitiei unui cuvant
             </CardTitle>
@@ -226,7 +256,9 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
         {/* CONTENT LENGTH BAR CHART */}
         <Card
           className={`flex flex-col  ${
-            !isHomePage ? "border-x-0 border-t-0 rounded-none" : "min-w-[33%]"
+            !isHomePage
+              ? "border-x-0 border-t-0 rounded-none"
+              : " mt-4 md:mt-0 min-w-[33%] flex-shrink-0"
           }`}
         >
           <CardHeader className="items-center pb-0">

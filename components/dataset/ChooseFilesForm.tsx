@@ -34,7 +34,7 @@ const formSchema = z.object({
 });
 
 interface ChooseFilesFromProps {
-  onFilesSelected: (files: any) => void;
+  onFilesSelected: (files: any) => void; //eslint-disable-line
   onCommit: () => void;
   isLoading?: boolean;
   numberOfFiles?: number;
@@ -62,6 +62,7 @@ const ChooseFilesFrom: FC<ChooseFilesFromProps> = ({
   }
 
   const session = useSession();
+  if ((session?.data?.user as any)?.role !== "ADMIN") return null;
 
   return (
     <div className="grid gap-4 grid-cols-4  choose-files">
@@ -76,6 +77,7 @@ const ChooseFilesFrom: FC<ChooseFilesFromProps> = ({
                   <FormLabel className="block">Files</FormLabel>
                   <FormControl className="custom-file-input">
                     <Input
+                      {...field}
                       name="files"
                       type="file"
                       className="text-white max-w-sm"
