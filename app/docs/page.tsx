@@ -62,7 +62,7 @@ const DocsPage = () => {
     return tabsList[0].value;
   };
 
-  const hashPath = window.location.hash;
+  const hashPath = typeof window !== undefined ? window.location.hash : "";
 
   const [activeTab, setActiveTab] = useState(
     getValidTab(hashPath.replace("#", ""))
@@ -77,16 +77,6 @@ const DocsPage = () => {
     fill: `hsl(var(--chart-${i + 1}))`,
   }));
 
-  // for each metric in the roc auc data, get its value for each model
-  // {
-  //   label: "class"
-  //   "model1": 0.5,
-  //     "model2": 0.6,
-  //       "model3": 0.7,
-  //         "model4": 0.8,
-  //           "model5": 0.9,
-  //             "model6": 0.95,
-  // }
   const dataROC = reduce(
     metrics,
     (acc: any[], { Model, "ROC AUC Per Class": rocAucPerClass }: any) => {
@@ -631,10 +621,10 @@ const DocsPage = () => {
                   <p className="text-sm text-gray-200 mb-4">
                     ** Modelul aflat la baza lui{" "}
                     <span className="font-extrabold">BERT</span> si{" "}
-                    <span className="font-extrabold">Bert Enhanced</span>
-                    este modelul `bert-base-uncased` de la Hugging Face. Acesta
-                    vine pre-antrenat pe un set de date de dimensiune mare si
-                    este optimizat pentru sarcini de clasificare a textului.
+                    <span className="font-extrabold">Bert Enhanced</span> este
+                    modelul `bert-base-uncased` de la Hugging Face. Acesta vine
+                    pre-antrenat pe un set de date de dimensiune mare si este
+                    optimizat pentru sarcini de clasificare a textului.
                   </p>
                   <p className="text-sm text-gray-200 mb-8">
                     ** Acuratetea, precizia, recall-ul si F1 Score-ul sunt
@@ -971,7 +961,7 @@ const DocsPage = () => {
                             />
                             <Bar dataKey="f1" layout="vertical" radius={5}>
                               <LabelList
-                                dataKey="recall"
+                                dataKey="f1"
                                 position="insideRight"
                                 offset={8}
                                 className="fill-foreground"
@@ -1042,38 +1032,38 @@ const DocsPage = () => {
                             <Bar
                               dataKey="Naive Bayes"
                               fill="hsl(var(--chart-1))"
-                              radius={8}
+                              radius={5}
                               strokeWidth={2}
                             />
 
                             <Bar
                               dataKey="Logistic Regression"
                               fill="hsl(var(--chart-2))"
-                              radius={8}
+                              radius={5}
                               strokeWidth={2}
                             />
                             <Bar
                               dataKey="Support Vector Machine"
                               fill="hsl(var(--chart-3))"
-                              radius={8}
+                              radius={5}
                               strokeWidth={2}
                             />
                             <Bar
                               dataKey="BERT"
                               fill="hsl(var(--chart-4))"
-                              radius={8}
+                              radius={5}
                               strokeWidth={2}
                             />
                             <Bar
                               dataKey="RoBERTa-large"
                               fill="hsl(var(--chart-5))"
-                              radius={8}
+                              radius={5}
                               strokeWidth={2}
                             />
                             <Bar
                               dataKey="BERT Enhanced"
                               fill="hsl(var(--chart-6))"
-                              radius={8}
+                              radius={5}
                               strokeWidth={2}
                             />
                           </BarChart>
@@ -1085,7 +1075,7 @@ const DocsPage = () => {
                             <PieChart className="h-4 w-4 inline-block mr-2" />
                             General Model Strength:
                           </span>{" "}
-                          odelele precum SVM și BERT demonstrează o capacitate
+                          Modelele precum SVM și BERT demonstrează o capacitate
                           constantă de a gestiona diverse forme de informații
                           false, excelând în special în detectarea satirei și a
                           știrilor reale, în timp ce Naive Bayes întâmpină mai
