@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { pipeline, PipelineType } from "@xenova/transformers";
+import path from "path";
+import { promises as fs } from "fs";
 
 interface PipelineSingleton {
   task: PipelineType;
@@ -13,6 +15,11 @@ const P = (): PipelineSingleton =>
   class PipelineSingleton {
     static task: PipelineType = "feature-extraction";
     static model: string = "mihalca/bert_model_ro_fake_news";
+    private cacheDir: string;
+
+    private constructor() {
+      this.cacheDir = path.resolve(process.cwd(), "cache");
+    }
 
     /* uncomment the following lines to use the model from the local filesystem */
     //static task: PipelineType = "text-classification";
@@ -21,16 +28,22 @@ const P = (): PipelineSingleton =>
     static instance: any = null; // Replace 'any' with the appropriate type for the pipeline instance
 
     static async getInstance(progress_callback?: any): Promise<any> {
-      /* uncomment the following lines to use the model from the local filesystem */
-      // env.localModelPath = "./models/";
-      // env.allowRemoteModels = false;
-      // env.useBrowserCache = false;
       if (this.instance === null) {
+        await PipelineSingleton.ensureCacheDir();
         this.instance = await pipeline(this.task, this.model, {
           progress_callback,
         });
       }
       return this.instance;
+    }
+
+    private static async ensureCacheDir() {
+      const cacheDir = path.resolve(process.cwd(), "cache");
+      try {
+        await fs.mkdir(cacheDir, { recursive: true });
+      } catch (error) {
+        console.error("Error creating cache directory:", error);
+      }
     }
   };
 

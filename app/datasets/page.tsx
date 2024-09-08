@@ -44,7 +44,7 @@ const TaggingPage = () => {
 
   const fetchDataset = useCallback(async () => {
     setIsLoadingData(true);
-    const dataset = await fetch("/api/datasets", { cache: "no-store" }).then(
+    const dataset = await fetch("/api/datasets", { cache: "no-cache" }).then(
       (res) => {
         return res.json();
       }

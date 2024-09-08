@@ -63,7 +63,7 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
 
   const fetchDatasetStats = useCallback(async () => {
     setIsLoading(true);
-    fetch("/api/datasets/stats", { cache: "no-store" })
+    fetch("/api/datasets/stats", { cache: "no-cache" })
       .then((res) => res.json())
       .then((data) => {
         setStats(data);
