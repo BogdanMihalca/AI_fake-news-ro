@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Quantico } from "next/font/google";
 import "./globals.css";
 import PageContainer from "@/components/commonPages/PageContainer";
 import Footer from "@/components/commonPages/Footer";
@@ -9,8 +9,14 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-const inter = Inter({ subsets: ["latin"] });
+const quantico = Quantico({
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Fake News App",
@@ -26,17 +32,19 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} dark`}>
-        <SessionProvider session={session}>
-          <PageContainer>
-            <Navbar />
-            {children}
-            <Toaster />
-            <Footer />
-          </PageContainer>
-        </SessionProvider>
-        <Analytics />
-        <SpeedInsights />
+      <body className={`${quantico.className} dark`}>
+        <ScrollArea className="h-screen w-screen scroll-smooth">
+          <SessionProvider session={session}>
+            <PageContainer>
+              <Navbar />
+              {children}
+              <Toaster />
+              <Footer />
+            </PageContainer>
+          </SessionProvider>
+          <Analytics />
+          <SpeedInsights />
+        </ScrollArea>
       </body>
     </html>
   );

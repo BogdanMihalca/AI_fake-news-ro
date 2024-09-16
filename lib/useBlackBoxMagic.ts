@@ -1,4 +1,5 @@
 import { useToast } from "@/components/ui/use-toast";
+import { set } from "lodash";
 import { useState } from "react";
 
 // Define types for result and API response
@@ -67,7 +68,9 @@ const useBlackBoxMagic = () => {
       }
 
       if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
+        throw new Error(
+          `Server error: ${response.status}, ${response.statusText}`
+        );
       }
 
       const json: APIResponse = await response.json();
@@ -80,12 +83,18 @@ const useBlackBoxMagic = () => {
         description: error.message as string,
         variant: "destructive",
       });
+      setResult(undefined);
     } finally {
       setReady(true);
     }
   };
 
-  return { result, ready, blackboxify };
+  const reset = () => {
+    setResult(undefined);
+    setReady(null);
+  };
+
+  return { result, ready, blackboxify, reset };
 };
 
 export default useBlackBoxMagic;

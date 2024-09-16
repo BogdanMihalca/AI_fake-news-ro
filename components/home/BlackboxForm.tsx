@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { CrossCircledIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -41,9 +41,10 @@ export type FormSchemaType = z.infer<typeof FormSchema>;
 
 interface BlackBoxFormProps {
   handleOnSubmit: (data: z.infer<typeof FormSchema>) => void; // eslint-disable-line
+  reset?: () => void;
 }
 
-const BlackBoxForm = ({ handleOnSubmit }: BlackBoxFormProps) => {
+const BlackBoxForm = ({ handleOnSubmit, reset }: BlackBoxFormProps) => {
   const { status } = useSession();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -55,6 +56,8 @@ const BlackBoxForm = ({ handleOnSubmit }: BlackBoxFormProps) => {
     },
   });
 
+  const textValue = form.watch("text");
+
   return (
     <Tabs
       defaultValue="free_text"
@@ -65,17 +68,21 @@ const BlackBoxForm = ({ handleOnSubmit }: BlackBoxFormProps) => {
           value="free_text"
           onClick={() => {
             form.setValue("type", "free_text");
+            form.setValue("text", "");
+            reset && reset();
           }}
         >
-          Text liber
+          Free Text
         </TabsTrigger>
         <TabsTrigger
           value="web_address"
           onClick={() => {
             form.setValue("type", "web_address");
+            form.setValue("text", "");
+            reset && reset();
           }}
         >
-          Adresa web
+          Web Address
         </TabsTrigger>
       </TabsList>
       <Form {...form}>
@@ -88,11 +95,11 @@ const BlackBoxForm = ({ handleOnSubmit }: BlackBoxFormProps) => {
           <TabsContent value="free_text">
             <Card className="min-h-[420px]">
               <CardHeader>
-                <CardTitle>Text liber</CardTitle>
+                <CardTitle>Free Text</CardTitle>
                 <CardDescription>
-                  Introdu textul pe care vrei să îl trimiți spre analizare la
-                  API-ul Blackbox. Asigură-te că apeși butonul de
-                  &apos;analizeaza&apos; când ai terminat.
+                  Enter the text you want to send for analysis to the Blackbox
+                  API. Make sure to press the &apos;analyze&apos; button when
+                  you are done.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
@@ -101,14 +108,26 @@ const BlackBoxForm = ({ handleOnSubmit }: BlackBoxFormProps) => {
                     control={form.control}
                     name="text"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="relative">
                         <FormControl>
                           <Textarea
                             placeholder="enter your text here"
-                            className="min-h-[200px]"
+                            className="min-h-[200px] pr-8"
                             {...field}
                           />
                         </FormControl>
+                        {/* clear input button*/}
+                        <Button
+                          type="button"
+                          onClick={() => form.setValue("text", "")}
+                          variant="link"
+                          className={`absolute top-0 right-[-.5rem] bg-transparent ${
+                            (textValue?.length || 0) < 1 ? "opacity-50" : ""
+                          }`}
+                          disabled={textValue === ""}
+                        >
+                          <CrossCircledIcon className="w-5 h-5" />
+                        </Button>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -124,15 +143,15 @@ const BlackBoxForm = ({ handleOnSubmit }: BlackBoxFormProps) => {
                           type="submit"
                           disabled={status !== "authenticated"}
                         >
-                          Analizeaza
+                          Analyze
                         </Button>
                       </span>
                     </TooltipTrigger>
                     {status !== "authenticated" ? (
                       <TooltipContent>
-                        <p>
-                          Pentru a folosi această funcționalitate trebuie să fii
-                          autentificat.
+                        <p className="max-w-60">
+                          To use this functionality you need to be
+                          authenticated.
                         </p>
                       </TooltipContent>
                     ) : null}
@@ -144,11 +163,11 @@ const BlackBoxForm = ({ handleOnSubmit }: BlackBoxFormProps) => {
           <TabsContent value="web_address">
             <Card className="min-h-[420px]">
               <CardHeader>
-                <CardTitle>Adresa web</CardTitle>
+                <CardTitle>Web Address</CardTitle>
                 <CardDescription>
-                  Introdu adresa web pe care vrei să o trimiți spre analizare la
-                  API-ul Blackbox. Asigură-te că apeși butonul de
-                  &apos;analizeaza&apos; când ai terminat.
+                  Enter the web address you want to send for analysis to the
+                  Blackbox API. Make sure to press the &apos;analyze&apos;
+                  button when you are done.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
@@ -180,15 +199,15 @@ const BlackBoxForm = ({ handleOnSubmit }: BlackBoxFormProps) => {
                           type="submit"
                           disabled={status !== "authenticated"}
                         >
-                          Analizeaza
+                          Analyze
                         </Button>
                       </span>
                     </TooltipTrigger>
                     {status !== "authenticated" ? (
                       <TooltipContent>
-                        <p>
-                          Pentru a folosi această funcționalitate trebuie să fii
-                          autentificat.
+                        <p className="max-w-60">
+                          To use this functionality you need to be
+                          authenticated.
                         </p>
                       </TooltipContent>
                     ) : null}

@@ -44,14 +44,12 @@ const getContent = (data: string) => {
       .remove();
 
     articleContent = selectedElement.text().trim();
-    console.log("i---------------->", articleContent);
 
     if (articleContent) {
       break;
     }
   }
 
-  console.log("content---------------->", articleContent);
   // If no content is found, try to find the article title
   if (!articleContent) {
     const articleTitleSelectors = [
@@ -96,7 +94,6 @@ const getContent = (data: string) => {
         break;
       }
     }
-    console.log("title---------------->", articleContent);
   }
 
   // If no content is found, try to find the article meta description
@@ -140,7 +137,6 @@ const getContent = (data: string) => {
         break;
       }
     }
-    console.log("meta---------------->", articleContent);
   }
 
   if (!articleContent) {

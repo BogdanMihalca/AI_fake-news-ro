@@ -126,6 +126,7 @@ export const getColumns = ({
                       <button
                         className="text-red-500"
                         onClick={() => onDelete(row.original.id)}
+                        disabled={!hasPermission}
                       >
                         <TrashIcon width={25} height={25} />
                       </button>
@@ -133,6 +134,7 @@ export const getColumns = ({
                       <button
                         className="text-green-500 ml-4"
                         onClick={() => onEdit(row.original.id)}
+                        disabled={!hasPermission}
                       >
                         <Pencil2Icon width={25} height={25} />
                       </button>
@@ -142,7 +144,7 @@ export const getColumns = ({
                     <TooltipContent>
                       <div className="flex items-center">
                         <span className="text-xs text-red-500">
-                          You must be an admin to delete items
+                          You must be an admin to delete / edit items
                         </span>
                       </div>
                     </TooltipContent>

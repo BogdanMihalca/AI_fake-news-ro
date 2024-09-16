@@ -83,7 +83,7 @@ const BlackboxResults: FC<BlackboxResultsProps> = ({ result, ready }) => {
   const resultedLabel = (maxBy(result?.results, "score") as any)?.label;
 
   const handleSendFeedback = (data: FeedbackFormSchemaType) => {
-    // is usefull if text is at least 100 characters
+    // is useful if text is at least 100 characters
     if (!result?.text || result?.text.length < 50) {
       setFeedbackSent(true);
       return;
@@ -131,11 +131,11 @@ const BlackboxResults: FC<BlackboxResultsProps> = ({ result, ready }) => {
         <div className="flex items-center justify-center md:p-10 lg:p-20">
           <Alert>
             <Terminal className="h-4 w-4" />
-            <AlertTitle>Vrei sa verifici un articol daca e fals?</AlertTitle>
+            <AlertTitle>Do you want to check if an article is fake?</AlertTitle>
             <AlertDescription className="pt-5 flex">
               <PieChart className="h-10 w-10 mr-4" />
-              Introdu textul sau adresa web a articolului in formularul din
-              stanga si apasa butonul de Analizeaza.
+              Enter the text or web address of the article in the form on the
+              left and press the Analyze button.
             </AlertDescription>
           </Alert>
         </div>
@@ -213,10 +213,10 @@ const BlackboxResults: FC<BlackboxResultsProps> = ({ result, ready }) => {
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm border-t-2 pt-2">
               <CardDescription>
-                <span className="font-bold">Rezultat:</span> {resultedLabel}
+                <span className="font-bold">Result:</span> {resultedLabel}
               </CardDescription>
               <CardDescription>
-                <span className="font-bold">Probabilitate de :</span>{" "}
+                <span className="font-bold">Probability of:</span>{" "}
                 {((maxBy(result.results, "score") as any)?.score * 100).toFixed(
                   2
                 )}

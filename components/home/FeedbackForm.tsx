@@ -73,11 +73,11 @@ const FeedbackForm = ({
       {feedbackSent ? (
         <div className="flex h-full flex-col text-center justify-center align-middle p-8 max-w-[400px]">
           <h3 className="text-2xl font-bold tracking-tight">
-            Multumim pentru feedback!
+            Thank you for your feedback!
           </h3>
           <p className="text-sm text-muted-foreground mt-4">
-            Feedback-ul tau ne ajuta sa imbunatatim modelul AI pentru a oferi
-            rezultate mai bune, mai precise si mai rapide in viitor.
+            Your feedback helps us improve the AI model to provide better, more
+            accurate, and faster results in the future.
           </p>
         </div>
       ) : (
@@ -88,8 +88,8 @@ const FeedbackForm = ({
                 Feedback
               </CardTitle>
               <CardDescription>
-                Trimite feedback pentru a ajuta la imbunatatirea rezultatelor.
-                Modelul nostru este inca in curs de invatare.
+                Submit feedback to help improve the results. Our model is still
+                learning.
               </CardDescription>
             </div>
           </CardHeader>
@@ -105,7 +105,7 @@ const FeedbackForm = ({
                         <Skeleton className="mx-auto h-5 w-32 mt-1 mb-4" />
                         <Skeleton className="  mx-auto mb-4">
                           <p className="text-md tracking-tight px-10 py-2">
-                            Se trimite...
+                            Sending...
                           </p>
                         </Skeleton>
                       </div>
@@ -118,7 +118,7 @@ const FeedbackForm = ({
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="my-4 block text-center">
-                              Rezultatul este corect?
+                              Is the result correct?
                             </FormLabel>
                             <FormControl>
                               <ToggleGroup
@@ -128,10 +128,26 @@ const FeedbackForm = ({
                                 variant="outline"
                                 onValueChange={field.onChange}
                               >
-                                <ToggleGroupItem value="yes" className="mr-4">
-                                  Da
+                                <ToggleGroupItem
+                                  value="yes"
+                                  className={`mr-4 ${
+                                    isCorrect === "yes"
+                                      ? "!bg-green-500 outline-1 outline-green-300 outline"
+                                      : "!bg-green-950"
+                                  }`}
+                                >
+                                  Yes
                                 </ToggleGroupItem>
-                                <ToggleGroupItem value="no">Nu</ToggleGroupItem>
+                                <ToggleGroupItem
+                                  value="no"
+                                  className={` ${
+                                    isCorrect === "no"
+                                      ? "!bg-red-500 outline-1 outline-red-300 outline"
+                                      : "!bg-red-950"
+                                  }`}
+                                >
+                                  No
+                                </ToggleGroupItem>
                               </ToggleGroup>
                             </FormControl>
                             <FormMessage {...field} />
@@ -145,7 +161,7 @@ const FeedbackForm = ({
                           render={({ field }) => (
                             <FormItem className="mt-5 mx-4 md:mx-10">
                               <FormLabel className="my-4 block text-center">
-                                Care label s-ar potrivi mai bine?
+                                Which label would fit better?
                               </FormLabel>
                               <FormControl>
                                 <Select
@@ -182,7 +198,7 @@ const FeedbackForm = ({
                               form.formState.isSubmitting || isSendingFeedback
                             }
                           >
-                            Trimite feedback
+                            Submit feedback
                           </Button>
                         </div>
                       )}

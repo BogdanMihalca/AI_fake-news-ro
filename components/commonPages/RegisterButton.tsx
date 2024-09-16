@@ -67,8 +67,6 @@ export function RegisterButton() {
   });
 
   const onSubmit = async (data: FormData) => {
-    console.log("Submitting form", data);
-
     const { email, password, name } = data;
 
     try {
@@ -84,7 +82,6 @@ export function RegisterButton() {
         throw new Error(error.message);
       }
       // Process response here
-      console.log("Registration Successful", response);
       toast({ title: "Registration Successful" });
       setOpen(false);
     } catch (error: any) {

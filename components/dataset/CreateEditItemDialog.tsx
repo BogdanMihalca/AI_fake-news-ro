@@ -65,7 +65,7 @@ const CreateEditItemDialog: React.FC<CreateEditItemDialogProps> = ({
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="content" className="text-right">
-              Continut
+              Content
             </Label>
             <Textarea
               id="content"
@@ -99,10 +99,10 @@ const CreateEditItemDialog: React.FC<CreateEditItemDialogProps> = ({
         </div>
         <DialogFooter>
           <Button variant="secondary" onClick={onClose}>
-            Anuleaza
+            Cancel
           </Button>
           <Button type="submit" onClick={handleSave}>
-            {item?.id ? "Salveaza" : "Creaza"}
+            {item?.id ? "Save" : "Create"}
           </Button>
         </DialogFooter>
       </DialogContent>

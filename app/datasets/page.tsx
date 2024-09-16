@@ -3,7 +3,7 @@
 import Content from "@/components/commonPages/Content";
 import PageHeader from "@/components/commonPages/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import ChooseFilesFrom from "../../components/dataset/ChooseFilesForm";
 import DataTable from "@/components/common/DataTable/DataTable";
 import { getColumns } from "../../components/dataset/dataTableColumns";
@@ -167,42 +167,45 @@ const TaggingPage = () => {
     setSelectedItem(null);
   };
 
-  const onUpdatedTag = (id: number, tag: string) => {
-    const dataItem = dataset.find((item) => item.id === id);
-    if (!dataItem) return;
-    fetch(`/api/datasets`, {
-      method: "PUT",
-      body: JSON.stringify({
-        id,
-        tag,
-        content: dataItem.content,
-      }),
-    })
-      .then(async (r) => {
-        if (!r.ok) {
-          throw new Error(r.statusText);
-        }
-        setDataset((prev) =>
-          prev.map((item) => {
-            if (item.id === id) {
-              return set(item, "tag", tag);
-            }
-            return item;
-          })
-        );
-        toast({
-          title: "Data Updated Successfully",
-          variant: "success",
-        });
+  const onUpdatedTag = useCallback(
+    (id: number, tag: string) => {
+      const dataItem = dataset.find((item) => item.id === id);
+      if (!dataItem) return;
+      fetch(`/api/datasets`, {
+        method: "PUT",
+        body: JSON.stringify({
+          id,
+          tag,
+          content: dataItem.content,
+        }),
       })
-      .catch((error) => {
-        toast({
-          title: "Data Update Failed",
-          description: error.message,
-          variant: "destructive",
+        .then(async (r) => {
+          if (!r.ok) {
+            throw new Error(r.statusText);
+          }
+          setDataset((prev) =>
+            prev.map((item) => {
+              if (item.id === id) {
+                return set(item, "tag", tag);
+              }
+              return item;
+            })
+          );
+          toast({
+            title: "Data Updated Successfully",
+            variant: "success",
+          });
+        })
+        .catch((error) => {
+          toast({
+            title: "Data Update Failed",
+            description: error.message,
+            variant: "destructive",
+          });
         });
-      });
-  };
+    },
+    [dataset, toast]
+  );
 
   const onEdit = (id: number) => {
     setSelectedItem(id);
@@ -236,102 +239,137 @@ const TaggingPage = () => {
     setSelectedItem(null);
   };
 
+  const columns = useMemo(
+    () =>
+      getColumns({
+        data: dataset[0],
+        isAuth: (!!session?.user && status === "authenticated") || false,
+        hasPermission: (session?.user as any)?.role === "ADMIN" || false,
+        onDelete: (e: number) => {
+          setShowAlertDelete(true);
+          setSelectedItem(e);
+        },
+        onUpdated: onUpdatedTag,
+        onEdit,
+        availableTags,
+      }),
+    [availableTags, dataset, onUpdatedTag, session?.user, status]
+  );
+
   return (
     <>
       <PageHeader title="Data Visualizer" />
       <Content>
-        <ChooseFilesFrom
-          onFilesSelected={onFilesSelected}
-          onCommit={() => setShowAlert(true)}
-          isLoading={isLoading}
-          numberOfFiles={numberOfFiles}
-          numberOfObjects={fileObjects.length}
-        />
+        <Suspense
+          fallback={
+            <div className="w-full">
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-20 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-28 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-20 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-20 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-32 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+              <Skeleton className="h-8 m-4" />
+            </div>
+          }
+        >
+          <ChooseFilesFrom
+            onFilesSelected={onFilesSelected}
+            onCommit={() => setShowAlert(true)}
+            isLoading={isLoading}
+            numberOfFiles={numberOfFiles}
+            numberOfObjects={fileObjects.length}
+          />
 
-        <div className="grid gap-4 grid-cols-8 mt-5 taggingPage">
-          <Card className="col-span-6">
-            <CardHeader>
-              <CardTitle>Data</CardTitle>
-            </CardHeader>
-            <CardContent className="pl-2">
-              {isLoadingData ? (
-                // a table skeleton
-                <div className="w-full">
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-20 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-28 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-20 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-20 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-32 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                  <Skeleton className="h-8 m-4" />
-                </div>
-              ) : (
-                <DataTable
-                  columns={getColumns({
-                    data: dataset[0],
-                    isAuth:
-                      (!!session?.user && status === "authenticated") || false,
-                    hasPermission:
-                      (session?.user as any)?.role === "ADMIN" || false,
-                    onDelete: (e: number) => {
-                      setShowAlertDelete(true);
-                      setSelectedItem(e);
-                    },
-                    onUpdated: onUpdatedTag,
-                    onEdit,
-                    availableTags,
-                  })}
-                  data={(dataset as any[]) || []}
-                />
-              )}
-            </CardContent>
-          </Card>
-          <Card className="col-span-2">
-            <CardHeader>
-              <CardTitle>Overview</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              <InsightsOverview />
-            </CardContent>
-          </Card>
-        </div>
+          <div className="grid gap-4 grid-cols-8 mt-5 taggingPage">
+            <Card className="col-span-6">
+              <CardHeader>
+                <CardTitle>Data</CardTitle>
+              </CardHeader>
+              <CardContent className="pl-2">
+                {isLoadingData ? (
+                  // a table skeleton
+                  <div className="w-full">
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-20 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-28 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-20 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-20 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-32 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                    <Skeleton className="h-8 m-4" />
+                  </div>
+                ) : (
+                  <DataTable
+                    columns={columns}
+                    data={(dataset as any[]) || []}
+                  />
+                )}
+              </CardContent>
+            </Card>
+            <Card className="col-span-2">
+              <CardHeader>
+                <CardTitle>Overview</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <InsightsOverview />
+              </CardContent>
+            </Card>
+          </div>
+        </Suspense>
       </Content>
 
       <AlertDialog open={showAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Esti 100% sigur ca doresti sa faci asta ?
+              Are you 100% sure you want to do this?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Aceasta actiune nu poate fi anulata. Toate inregistrarile din baza
-              de date vor fi sterse definitiv si inlocuite cu datele din
-              fisierele selectate.
+              This action cannot be undone. All records in the database will be
+              permanently deleted and replaced with the data from the selected
+              files.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setShowAlert(false)}>
-              Anuleaza
+              Cancel
             </AlertDialogCancel>
             <AlertDialogAction onClick={handleCommitToDB}>
-              Procedeaza
+              Proceed
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -341,26 +379,26 @@ const TaggingPage = () => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Esti 100% sigur ca doresti sa faci asta ?
+              Are you 100% sure you want to do this?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Aceasta actiune nu poate fi anulata. Inregistrarea va fi stearsa
-              definitiv.
+              This action cannot be undone. The record will be permanently
+              deleted.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setShowAlertDelete(false)}>
-              Anuleaza
+              Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               className="
-            bg-red-500
-            hover:bg-red-700
-            text-white÷
-            "
+        bg-red-500
+        hover:bg-red-700
+        text-white
+        "
               onClick={handleDeleteItem}
             >
-              Sterge
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

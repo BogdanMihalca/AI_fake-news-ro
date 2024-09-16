@@ -100,8 +100,8 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
             </TooltipTrigger>
             {status !== "authenticated" && (
               <TooltipContent>
-                <div className="text-center">
-                  Pentru a actuliza statistici trebuie sa fii autentificat
+                <div className="text-center max-w-60">
+                  You need to be authenticated to update statistics
                 </div>
               </TooltipContent>
             )}
@@ -120,8 +120,8 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
           }`}
         >
           <CardHeader className="items-center pb-0">
-            <CardTitle className="text-sm">Distributia tagului</CardTitle>
-            <CardDescription>in setul de date</CardDescription>
+            <CardTitle className="text-sm">Tag Distribution</CardTitle>
+            <CardDescription>in the dataset</CardDescription>
           </CardHeader>
           <CardContent className="flex-1 pb-0 p-0">
             {isLoading ? (
@@ -171,7 +171,7 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
                                 y={(viewBox.cy || 0) + 24}
                                 className="fill-muted-foreground"
                               >
-                                Iteme totale
+                                Total items
                               </tspan>
                             </text>
                           );
@@ -185,12 +185,12 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
           </CardContent>
           <CardFooter className="flex-col gap-2 text-sm">
             <div className="flex items-center gap-2 font-medium leading-none">
-              Predominant este: <TrendingUp size={16} />
+              Predominant is: <TrendingUp size={16} />
               &quot;{findMax(stats.tagDistributionChartData, "count")?.tag}
               &quot;
             </div>
             <div className="leading-none text-muted-foreground">
-              {findMax(stats.tagDistributionChartData, "count")?.count} iteme
+              {findMax(stats.tagDistributionChartData, "count")?.count} items
             </div>
           </CardFooter>
         </Card>
@@ -203,11 +203,9 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
           }`}
         >
           <CardHeader className="items-center pb-0 ">
-            <CardTitle className="text-sm">
-              Frecventa aparitiei unui cuvant
-            </CardTitle>
+            <CardTitle className="text-sm">Word Frequency</CardTitle>
             <CardDescription>
-              Limitat la 100 de cuvinte cele mai frecvente
+              Limited to the top 100 most frequent words
             </CardDescription>
           </CardHeader>
           <CardContent className="flex-1 pb-0 p-0 mt-4 ">
@@ -242,14 +240,14 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
           </CardContent>
           <CardFooter className="flex-col gap-2 text-sm mt-4">
             <div className="flex items-center gap-2 font-medium leading-none">
-              Predominant este: <TrendingUp size={16} />
+              Predominant is: <TrendingUp size={16} />
               &quot;{findMax(stats.wordCloudData, "value")?.name}&quot;
             </div>
             <div className="leading-none text-muted-foreground">
-              {findMax(stats.wordCloudData, "value")?.value} aparitii
+              {findMax(stats.wordCloudData, "value")?.value} occurrences
             </div>
             <div className="leading-none text-muted-foreground">
-              {stats.wordCloudData.length} cuvinte unice
+              {stats.wordCloudData.length}+ unique words
             </div>
           </CardFooter>
         </Card>
@@ -262,8 +260,8 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
           }`}
         >
           <CardHeader className="items-center pb-0">
-            <CardTitle className="text-sm">Lungimea continutului</CardTitle>
-            <CardDescription>dupa tag</CardDescription>
+            <CardTitle className="text-sm">Content Length</CardTitle>
+            <CardDescription>by tag</CardDescription>
           </CardHeader>
           <CardContent className="flex-1 pb-0 p-0 mt-4">
             {isLoading ? (
@@ -296,7 +294,7 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
           </CardContent>
           <CardFooter className="flex-col gap-2 text-sm mt-4">
             <div className="flex items-center gap-2 font-medium leading-none">
-              Tagul predominant: <TrendingUp size={16} />
+              Predominant tag: <TrendingUp size={16} />
               &quot;{findMax(stats.contentLengthByTagChartData, "words")?.tag}
               &quot;
             </div>
@@ -304,7 +302,7 @@ const InsightsOverview = ({ isHomePage }: { isHomePage?: boolean }) => {
               {Number(
                 findMax(stats.contentLengthByTagChartData, "words")?.words
               ).toFixed(2)}{" "}
-              caractere in medie
+              characters on average
             </div>
           </CardFooter>
         </Card>

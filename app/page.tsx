@@ -10,7 +10,7 @@ import { BlackboxResults } from "@/components/home/BlacboxResults";
 import Link from "next/link";
 
 export default function Home() {
-  const { result, ready, blackboxify } = useBlackBoxMagic();
+  const { result, ready, blackboxify, reset } = useBlackBoxMagic();
 
   const handleOnSubmit = (data: FormSchemaType) => {
     const type = data.type === "free_text" ? "text" : "url";
@@ -20,20 +20,20 @@ export default function Home() {
 
   return (
     <>
-      <PageHeader title="Detectie stiri false cu AI" />
+      <PageHeader title="Ai fake news detection" />
       {/* to columns one of 1/2 and one of 2/3  */}
       <div className="md:flex md:justify-start">
-        <BlackBoxForm handleOnSubmit={handleOnSubmit} />
+        <BlackBoxForm handleOnSubmit={handleOnSubmit} reset={reset} />
 
         <BlackboxResults result={result} ready={ready} />
       </div>
 
       <Content>
         <Separator className="my-10" />
-        <h2 className="text-xl font-bold mb-4">Statistici set de date</h2>
+        <h2 className="text-xl font-bold mb-4">Dataset Statistics</h2>
         <div className="my-4 text-sm text-muted-foreground">
-          In antrenarea acestui model AI a fost utilizat un dataset compus din
-          articole de știri colectate de pe platforma{" "}
+          The training of this AI model used a dataset composed of news articles
+          collected from the platform{" "}
           <Link
             href="https://veridica.ro"
             className="underline"
@@ -41,8 +41,8 @@ export default function Home() {
           >
             Veridica
           </Link>
-          , o sursă care monitorizează și identifică știrile false și
-          dezinformările în combinație cu datasetul open-source{" "}
+          , a source that monitors and identifies fake news and misinformation,
+          in combination with the open-source dataset{" "}
           <Link
             href="https://huggingface.co/datasets/mateiaass/FakeRom"
             className="underline"
@@ -51,11 +51,10 @@ export default function Home() {
             FakeRom
           </Link>
           {". "}
-          Dataset-ul obținut astfel conține informații variate, fiecare articol
-          fiind asociat cu un tag specific care indică tipul de conținut al său.
-          Acesta a fost utilizat pentru a antrena un model de clasificare a
-          știrilor false, model ce este folosit pentru a genera rezultatele de
-          mai sus.
+          The resulting dataset contains varied information, with each article
+          being associated with a specific tag indicating its content type. This
+          dataset was used to train a fake news classification model, which is
+          used to generate the results above.
         </div>
         <InsightsOverview isHomePage />
       </Content>

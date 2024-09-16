@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+
 import Google from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
@@ -8,8 +8,7 @@ import { getUserFromDb, isSamePassword } from "./app/api/auth/utils";
 import { v4 as uuid } from "uuid";
 import { encode as defaultEncode } from "next-auth/jwt";
 import { cookies } from "next/headers";
-
-const prisma = new PrismaClient();
+import prisma from "./lib/prisma";
 
 export const options: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
@@ -21,8 +20,6 @@ export const options: NextAuthConfig = {
         password: {},
       },
       authorize: async (credentials) => {
-        console.log("credentials server --------->", credentials);
-
         let user = null;
 
         try {
@@ -42,15 +39,12 @@ export const options: NextAuthConfig = {
             (user.password as string) || "_"
           );
 
-          console.log("isValid----------->", isValid);
-
           if (!isValid) {
             return null;
           }
 
           return user;
         } catch (error) {
-          console.log("-------------------->", error);
           return null;
         }
       },

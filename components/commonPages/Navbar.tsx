@@ -37,21 +37,20 @@ const components: {
     href: "https://veridica.ro/baza-de-date",
     target: "_blank",
     description:
-      "O baza de date cu surse de știri verificate de jurnaliști profesioniști.",
+      "A database with news sources verified by professional journalists.",
   },
   {
     title: "FakeRom",
     href: "https://huggingface.co/datasets/mateiaass/FakeRom",
     target: "_blank",
     description:
-      "Un set de date cu știri false în limba română, colectate de pe diverse site-uri de știri.",
+      "A dataset with fake news in Romanian, collected from various news sites.",
   },
   {
-    title: "Contributii de la utilizatori",
+    title: "User Contributions",
     href: "#",
     target: "",
-    description:
-      "Cotributii de la utilizatori prin intermediul tool-ului de feedback.",
+    description: "Contributions from users through the feedback tool.",
   },
 ];
 
@@ -97,16 +96,16 @@ const Navbar = () => {
   return (
     <>
       <NavigationMenu className="mt-5 flex justify-between max-w-none">
-        <NavigationMenuList>
+        <NavigationMenuList className="flex-wrap justify-start">
           <NavigationMenuItem>
             <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Acasă
+                Home
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Informații generale</NavigationMenuTrigger>
+            <NavigationMenuTrigger>General Info</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                 <li className="row-span-3">
@@ -117,31 +116,30 @@ const Navbar = () => {
                     >
                       <Icons.logo className="h-6 w-6" />
                       <div className="mb-2 mt-4 text-lg font-medium">
-                        Stiri false
+                        Fake news detection
                       </div>
                       <p className="text-sm leading-tight text-muted-foreground">
-                        O aplicație pentru detectarea știrilor false. folosind
-                        machine learning. Detectarea știrilor false este un
-                        proces complex, care implică analiza conținutului și a
-                        contextului.
+                        An app for detecting fake news using machine learning.
+                        Detecting fake news is a complex process that involves
+                        analyzing the content and context.
                       </p>
                     </a>
                   </NavigationMenuLink>
                 </li>
-                <ListItem href="/docs" title="Introducere">
-                  Introducere în problematica știrilor false.
+                <ListItem href="/docs" title="Introduction">
+                  Introduction to the issue of fake news.
                 </ListItem>
-                <ListItem href="/docs#modele_ia" title="Modele IA">
-                  Modele de inteligență artificială testate.
+                <ListItem href="/docs#modele_ai" title="AI Models">
+                  Tested artificial intelligence models.
                 </ListItem>
-                <ListItem href="/docs#evaluare" title="Evaluare">
-                  Evaluarea modelelor de IA.
+                <ListItem href="/docs#evaluare" title="Evaluation">
+                  Evaluation of AI models.
                 </ListItem>
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Surse de date</NavigationMenuTrigger>
+            <NavigationMenuTrigger>Data Sources</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                 {components.map((component) => (
@@ -160,7 +158,14 @@ const Navbar = () => {
           <NavigationMenuItem>
             <Link href="/datasets" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Set de date
+                Datasets
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link href="/about" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                About
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
