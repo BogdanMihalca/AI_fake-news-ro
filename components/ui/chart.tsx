@@ -112,6 +112,7 @@ const ChartTooltipContent = React.forwardRef<
       nameKey?: string;
       labelKey?: string;
       valueFormatter?: (value: any) => React.ReactNode;
+      labelFromDataKey?: string;
     }
 >(
   (
@@ -130,6 +131,7 @@ const ChartTooltipContent = React.forwardRef<
       color,
       nameKey,
       labelKey,
+      labelFromDataKey,
     },
     ref
   ) => {
@@ -143,10 +145,22 @@ const ChartTooltipContent = React.forwardRef<
       const [item] = payload;
       const key = `${labelKey || item.dataKey || item.name || "value"}`;
       const itemConfig = getPayloadConfigFromPayload(config, item, key);
+
       const value =
         !labelKey && typeof label === "string"
           ? config[label as keyof typeof config]?.label || label
           : itemConfig?.label;
+
+      if (labelFromDataKey) {
+        return (
+          <div className={cn("font-medium", labelClassName)}>
+            <span className="text-white block">{value}</span>
+            <span className="text-gray-400">
+              {item.payload[labelFromDataKey]}
+            </span>
+          </div>
+        );
+      }
 
       if (labelFormatter) {
         return (
@@ -167,6 +181,7 @@ const ChartTooltipContent = React.forwardRef<
       labelKey,
       config,
       label,
+      labelFromDataKey,
       labelFormatter,
       labelClassName,
     ]);

@@ -100,92 +100,138 @@ if __name__ == "__main__":
 
 `;
 
-const preProcessedCode = `import random
-import pandas as pd
+const preProcessedCode = `import pandas as pd
 import json
-import re
-import nltk
-from nltk.corpus import wordnet
-from sklearn.utils import resample
+import regex as re
+from tqdm import tqdm
+import numpy as np
+from gensim.models import KeyedVectors
+from imblearn.over_sampling import RandomOverSampler
+import random
 
-# Ensure that NLTK resources are downloaded
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+# Set random seed for reproducibility
+random.seed(42)
+np.random.seed(42)
 
+
+
+# Function to load data from JSON file
 def load_json(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
     return data
 
 # Load the data
-data = load_json('../../datasets/combined_data_improved.json')
+data = load_json('../../datasets/combined_data.json')
 df = pd.DataFrame(data)
 
-# Basic text preprocessing
+# Improved preprocessing function
 def preprocess_text(text):
-    # Convert text to lowercase
     text = text.lower()
-    # Remove special characters
-    text = re.sub(r'\\W', ' ', text)
-    # Remove all single characters
-    text = re.sub(r'\\s+[a-zA-Z]\\s+', ' ', text)
-    # Replace multiple spaces with a single space
-    text = re.sub(r'\\s+', ' ', text, flags=re.I)
-    return text
+    text = re.sub(r'[^\p{L}\s]', ' ', text)
+    text = re.sub(r'\s+\p{L}\s+', ' ', text)
+    text = re.sub(r'\s+', ' ', text)
+    return text.strip()
 
 # Apply preprocessing
 df['content'] = df['content'].apply(preprocess_text)
 
-# Simple synonym replacement function for data augmentation
-def synonym_replacement(text, n=2):
+# Load pre-trained fastText embeddings for Romanian
+# Download from: https://fasttext.cc/docs/en/crawl-vectors.html
+def load_embeddings(file_path):
+    print("Loading embeddings...")
+    embeddings = KeyedVectors.load_word2vec_format(file_path, binary=False, limit=1000000)  # Limit to 1 million words to save memory
+    print("Embeddings loaded.")
+    return embeddings
+
+# Provide the path to your downloaded fastText embeddings file
+embeddings = load_embeddings('cc.ro.300.vec')
+
+# Synonym replacement function using fastText embeddings
+def synonym_replacement(text, embeddings, num_replacements=2):
     words = text.split()
     new_words = words.copy()
-    random_word_list = list(set([word for word in words if wordnet.synsets(word)]))
+    random_word_list = list(set(words))
     random.shuffle(random_word_list)
     num_replaced = 0
     for random_word in random_word_list:
-        synonyms = set()
-        for syn in wordnet.synsets(random_word):
-            for lemma in syn.lemmas():
-                synonyms.add(lemma.name())
-        if len(synonyms) > 1:
-            synonym = list(synonyms)[0]
-            new_words = [synonym if word == random_word else word for word in new_words]
-            num_replaced += 1
-        if num_replaced >= n:
-            break
+        synonyms = []
+        try:
+            # Check if the word is in the embeddings
+            if random_word in embeddings:
+                # Get the most similar words (synonyms)
+                similar_words = embeddings.most_similar(random_word, topn=10)
+                synonyms = [word for word, similarity in similar_words if word != random_word]
+            if synonyms:
+                # Choose a random synonym
+                synonym = random.choice(synonyms)
+                # Replace the word with the synonym
+                new_words = [synonym if word == random_word else word for word in new_words]
+                num_replaced += 1
+            if num_replaced >= num_replacements:
+                break
+        except KeyError:
+            continue
+    augmented_text = ' '.join(new_words)
+    return augmented_text
 
-    sentence = ' '.join(new_words)
-    return sentence
+# Function to augment data
+def augment_data(df, label, augmentations_per_sample):
+    augmented_texts = []
+    subset = df[df['tag'] == label]
+    for text in tqdm(subset['content'], desc=f'Augmenting {label}'):
+        for _ in range(augmentations_per_sample):
+            augmented_text = synonym_replacement(text, embeddings)
+            augmented_texts.append({'content': augmented_text, 'tag': label})
+    return pd.DataFrame(augmented_texts)
 
-# Apply augmentation to a copy of the minority class rows
-minority_data = df[df['tag'] == 'misinformation']
-augmented_texts = minority_data['content'].apply(lambda x: synonym_replacement(x))
+# Calculate class counts
+class_counts = df['tag'].value_counts()
+print("Initial class distribution:")
+print(class_counts)
+
+# Find the maximum class count
+max_count = class_counts.max()
+
+# Augment minority classes
+augmented_dfs = []
+for label, count in class_counts.items():
+    if count < max_count:
+        augmentations_per_sample = max(1, (max_count - count) // count)
+        print(f"Augmenting class '{label}' with {augmentations_per_sample} augmentations per sample.")
+        augmented_df = augment_data(df, label, augmentations_per_sample)
+        augmented_dfs.append(augmented_df)
+    else:
+        print(f"Class '{label}' is already the majority class.")
 
 # Combine augmented data back into the original dataframe
-augmented_data = minority_data.copy()
-augmented_data['content'] = augmented_texts
-df_augmented = pd.concat([df, augmented_data])
+df_augmented = pd.concat([df] + augmented_dfs, ignore_index=True)
 
-# Handling class imbalance by oversampling minority classes
-max_size = df_augmented['tag'].value_counts().max()
-lst = [df_augmented]
-for class_index, group in df_augmented.groupby('tag'):
-    lst.append(group.sample(max_size-len(group), replace=True))
-df_balanced = pd.concat(lst)
+# Recalculate class counts after augmentation
+class_counts_augmented = df_augmented['tag'].value_counts()
+print("Class distribution after augmentation:")
+print(class_counts_augmented)
 
-# Now you have df_balanced ready for further use
-print(df_balanced['tag'].value_counts())  # This should show balanced classes
+# Balance the dataset using RandomOverSampler
+ros = RandomOverSampler(random_state=42)
+X = df_augmented['content'].values.reshape(-1, 1)
+y = df_augmented['tag']
+X_resampled, y_resampled = ros.fit_resample(X, y)
+df_balanced = pd.DataFrame({'content': X_resampled.flatten(), 'tag': y_resampled})
 
-# Save the balanced dataset to a JSON file
+# Verify balanced classes
+print("Final class distribution after balancing:")
+print(df_balanced['tag'].value_counts())
+
+# Save the balanced dataset
 def save_to_json(df, file_path):
     df.to_json(file_path, orient='records', lines=True, force_ascii=False)
 
-# Specify the path to save the enhanced dataset
-enhanced_dataset_path = '../../datasets/combined_data_improved_result.json'
+enhanced_dataset_path = '../../datasets/post_processed/combined_balanced.json'
 save_to_json(df_balanced, enhanced_dataset_path)
 
-print(f"Enhanced dataset saved to {enhanced_dataset_path}")`;
+print(f"Enhanced dataset saved to {enhanced_dataset_path}")
+`;
 
 const trainingCode = `from transformers import BertTokenizerFast
 import torch

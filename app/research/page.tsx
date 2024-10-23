@@ -11,14 +11,14 @@ import {
   preProcessedCode,
   scrapperCode,
   trainingCode,
-} from "../../components/about/code";
+} from "../../components/research/code";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChartTabs } from "@/components/about/ChartTabs";
+import { ChartTabs } from "@/components/research/ChartTabs";
 
 const HowItWorks = () => {
   return (
     <>
-      <PageHeader title="How it works" />
+      <PageHeader title="Research" />
       <Content>
         <div className="flex w-full">
           <Card className="w-1/4 mr-4 px-2 py-4 hidden md:block">
@@ -212,31 +212,30 @@ const HowItWorks = () => {
               <section id="data_preprocessing" className="text-sm mb-6">
                 <h1 className="text-2xl font-bold">🧹 Data preprocessing</h1>
                 <p className="mt-2">
-                  The next step in creating the fake news detection tool is to
-                  preprocess the data before training the model. The data
-                  preprocessing step involves cleaning the data, removing
-                  stopwords, and other irrelevant information, and converting
-                  the text data into a format that can be used by the model.
+                  The next step in building the fake news detection tool
+                  involves data preprocessing to ensure the data is clean,
+                  consistent, and ready for model training. This step includes
+                  various tasks such as text cleaning, data augmentation, and
+                  handling class imbalances to optimize model performance.
                 </p>
                 <p className="mt-2">
-                  The data preprocessing step is important because it helps
-                  improve the performance of the model by removing noise and
-                  irrelevant information from the data. The data preprocessing
-                  step also helps reduce the dimensionality of the data and
-                  improve the efficiency of the model.
+                  Data preprocessing is critical to improving the model&apos;s
+                  performance by eliminating noise and irrelevant information,
+                  thus enhancing the model&apos;s ability to generalize.
+                  Moreover, it ensures balanced class distributions, crucial for
+                  preventing model bias.
                 </p>
                 <p className="mt-2">
-                  Preprocessing involved the following steps:
+                  The following steps outline the preprocessing procedure:
                 </p>
                 <ul className="list-disc mt-2 ml-24">
-                  <li>Converts text to lowercase.</li>
-                  <li>Removes special characters.</li>
-                  <li>Removes single characters.</li>
-                  <li>Replaces multiple spaces with a single space.</li>
+                  <li>Text is converted to lowercase.</li>
+                  <li>Special characters and single characters are removed.</li>
+                  <li>Multiple spaces are replaced with a single space.</li>
                 </ul>
                 <p className="my-4">
-                  The following steps are performed in the preprocessing of the
-                  dataset, and you can find the code lower in this page:
+                  The preprocessing process also includes the following advanced
+                  techniques:
                 </p>
                 <ol className="list-decimal list-inside mb-4 ml-24">
                   <li className="mb-2">
@@ -245,43 +244,45 @@ const HowItWorks = () => {
                   </li>
                   <li className="mb-2">
                     <strong>Basic Text Preprocessing:</strong> The text is
-                    converted to lowercase, special characters are removed,
-                    single characters are removed, and multiple spaces are
-                    replaced with a single space using the{" "}
+                    cleaned by converting it to lowercase, removing special
+                    characters, eliminating single characters, and condensing
+                    multiple spaces into one using the{" "}
                     <code>preprocess_text</code> function.
                   </li>
                   <li className="mb-2">
-                    <strong>Data Augmentation:</strong> A simple synonym
-                    replacement function <code>synonym_replacement</code> is
-                    used to augment the minority class data by replacing words
-                    with their synonyms.
+                    <strong>Synonym Replacement:</strong> The minority class
+                    data is augmented using the <code>synonym_replacement</code>{" "}
+                    function, which employs pre-trained fastText embeddings to
+                    replace words with their synonyms, enhancing the dataset’s
+                    variety.
                   </li>
                   <li className="mb-2">
-                    <strong>Combining Augmented Data:</strong> The augmented
-                    data is combined back into the original dataframe.
+                    <strong>Data Augmentation:</strong> The minority class data
+                    is further augmented by generating new samples with synonym
+                    replacement and combining them with the original data.
                   </li>
                   <li className="mb-2">
-                    <strong>Handling Class Imbalance:</strong> The minority
-                    classes are oversampled to balance the dataset.
+                    <strong>Handling Class Imbalance:</strong> The
+                    RandomOverSampler method from the <code>imblearn</code>{" "}
+                    library is used to balance the dataset by oversampling the
+                    minority classes, ensuring that each class has an equal
+                    number of samples.
                   </li>
                   <li className="mt-2">
-                    <strong>Saving the Enhanced Dataset:</strong> The balanced
-                    dataset is saved to a JSON file using the{" "}
+                    <strong>Saving the Enhanced Dataset:</strong> The processed
+                    and balanced dataset is saved in JSON format using the{" "}
                     <code>save_to_json</code> function.
                   </li>
                 </ol>
                 <p className="mt-2">
-                  The final balanced dataset is ready for further use and is
-                  saved to the specified path.
-                </p>
-                <p className="mt-2">
-                  The code also prints the value counts of the tags to show that
-                  the classes are balanced.
+                  The final balanced dataset is now ready for training and is
+                  saved to the specified path. Additionally, the class
+                  distribution is printed to confirm that the classes are
+                  balanced.
                 </p>
                 <CodeBlock
                   code={preProcessedCode}
                   title="Data preprocessing code:"
-                  highLight="22-32, 37-57,59-73"
                 />
               </section>
               <Separator className="my-4 bg-slate-500" />

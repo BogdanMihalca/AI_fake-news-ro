@@ -1,0 +1,752 @@
+[
+  {
+    "model": "Multinomial Naive Bayes (trained on FakeRom)",
+    "test_set": "test data from FakeRom",
+    "accuracy": 0.84,
+    "precision": 0.8454915333279603,
+    "recall": 0.84,
+    "f1_score": 0.8409517968428307,
+    "log_loss": 0.7646162343376279,
+    "roc_auc_per_class": {
+      "fake_news": 0.9771938775510205,
+      "misinformation": 0.9725287356321839,
+      "propaganda": 0.9197301390609941,
+      "real_news": 0.9436229662232333,
+      "satire": 0.9984528382415706
+    },
+    "roc_auc_micro": 0.9631387755102041,
+    "roc_auc_macro": 0.9623057113418005,
+    "confusion_matrix": [
+      [61, 1, 7, 1, 0],
+      [3, 51, 2, 4, 0],
+      [12, 0, 61, 8, 0],
+      [2, 8, 3, 60, 0],
+      [4, 1, 0, 0, 61]
+    ]
+  },
+  {
+    "model": "Multinomial Naive Bayes (trained on FakeRom)",
+    "test_set": "test data from NEW",
+    "accuracy": 0.311046511627907,
+    "precision": 0.2988559229984502,
+    "recall": 0.311046511627907,
+    "f1_score": 0.2974626432069278,
+    "log_loss": 1.5494570029560712,
+    "roc_auc_per_class": {
+      "fake_news": 0.5800640271431308,
+      "misinformation": 0.5900515676687577,
+      "propaganda": 0.6338410941020667,
+      "real_news": 0.663457113097401,
+      "satire": 0.7043957513357013
+    },
+    "roc_auc_micro": 0.6291839432726398,
+    "roc_auc_macro": 0.6343619106694115,
+    "confusion_matrix": [
+      [39, 64, 33, 41, 50],
+      [33, 64, 26, 49, 37],
+      [45, 44, 29, 25, 46],
+      [14, 52, 7, 76, 49],
+      [29, 28, 14, 25, 113]
+    ]
+  },
+  {
+    "model": "Multinomial Naive Bayes (trained on FakeRom)",
+    "test_set": "test data from FakeRom and NEW",
+    "accuracy": 0.3219971056439942,
+    "precision": 0.31293713680873336,
+    "recall": 0.3219971056439942,
+    "f1_score": 0.3083045084968241,
+    "log_loss": 1.545338874339564,
+    "roc_auc_per_class": {
+      "fake_news": 0.6078263433102142,
+      "misinformation": 0.6247490789820873,
+      "propaganda": 0.6189581667998934,
+      "real_news": 0.6654820463596175,
+      "satire": 0.6902948180996961
+    },
+    "roc_auc_micro": 0.6347052291085928,
+    "roc_auc_macro": 0.6414620907103017,
+    "confusion_matrix": [
+      [61, 79, 42, 57, 58],
+      [34, 89, 29, 69, 48],
+      [58, 60, 39, 49, 64],
+      [19, 63, 10, 113, 66],
+      [40, 37, 19, 36, 143]
+    ]
+  },
+  {
+    "model": "Logistic Regression (trained on FakeRom)",
+    "test_set": "test data from FakeRom",
+    "accuracy": 0.8514285714285714,
+    "precision": 0.8528786673613427,
+    "recall": 0.8514285714285714,
+    "f1_score": 0.8498214729121506,
+    "log_loss": 0.7292929576871531,
+    "roc_auc_per_class": {
+      "fake_news": 0.9867857142857144,
+      "misinformation": 0.9920689655172413,
+      "propaganda": 0.9367111845426591,
+      "real_news": 0.9505464615993274,
+      "satire": 0.9969056764831413
+    },
+    "roc_auc_micro": 0.9745816326530612,
+    "roc_auc_macro": 0.9726036004856168,
+    "confusion_matrix": [
+      [62, 0, 6, 1, 1],
+      [0, 56, 1, 3, 0],
+      [11, 3, 57, 10, 0],
+      [0, 8, 4, 60, 1],
+      [0, 3, 0, 0, 63]
+    ]
+  },
+  {
+    "model": "Logistic Regression (trained on FakeRom)",
+    "test_set": "test data from NEW",
+    "accuracy": 0.20251937984496124,
+    "precision": 0.04105388010436169,
+    "recall": 0.20251937984496124,
+    "f1_score": 0.06826862965741436,
+    "log_loss": 1.8852532668039634,
+    "roc_auc_per_class": {
+      "fake_news": 0.6164609954305416,
+      "misinformation": 0.6337765323504275,
+      "propaganda": 0.5965216190601719,
+      "real_news": 0.6239796041954315,
+      "satire": 0.6576650950252025
+    },
+    "roc_auc_micro": 0.5641304796887205,
+    "roc_auc_macro": 0.6256807692123549,
+    "confusion_matrix": [
+      [0, 0, 0, 0, 227],
+      [1, 0, 0, 0, 208],
+      [0, 0, 0, 0, 189],
+      [0, 0, 0, 0, 198],
+      [0, 0, 0, 0, 209]
+    ]
+  },
+  {
+    "model": "Logistic Regression (trained on FakeRom)",
+    "test_set": "test data from FakeRom and NEW",
+    "accuracy": 0.19898697539797394,
+    "precision": 0.03962448822189923,
+    "recall": 0.19898697539797394,
+    "f1_score": 0.06608866936526912,
+    "log_loss": 1.8493207138528922,
+    "roc_auc_per_class": {
+      "fake_news": 0.6389362131297616,
+      "misinformation": 0.6389275777646403,
+      "propaganda": 0.6072841726618705,
+      "real_news": 0.6469521490894476,
+      "satire": 0.6972949002217296
+    },
+    "roc_auc_micro": 0.5758593012077967,
+    "roc_auc_macro": 0.64587900257349,
+    "confusion_matrix": [
+      [0, 0, 0, 0, 297],
+      [1, 0, 0, 0, 268],
+      [0, 0, 0, 0, 270],
+      [0, 0, 0, 0, 271],
+      [0, 0, 0, 0, 275]
+    ]
+  },
+  {
+    "model": "Support Vector Machine (trained on FakeRom)",
+    "test_set": "test data from FakeRom",
+    "accuracy": 0.8942857142857142,
+    "precision": 0.8935155081355417,
+    "recall": 0.8942857142857142,
+    "f1_score": 0.892752684872154,
+    "log_loss": 0.25600084499639886,
+    "roc_auc_per_class": {
+      "fake_news": 0.9969897959183673,
+      "misinformation": 0.9986206896551725,
+      "propaganda": 0.9672311716921382,
+      "real_news": 0.9798229563325255,
+      "satire": 0.9998932991890739
+    },
+    "roc_auc_micro": 0.9906061224489796,
+    "roc_auc_macro": 0.9885115825574555,
+    "confusion_matrix": [
+      [66, 0, 4, 0, 0],
+      [0, 58, 0, 2, 0],
+      [8, 0, 62, 11, 0],
+      [0, 6, 5, 61, 1],
+      [0, 0, 0, 0, 66]
+    ]
+  },
+  {
+    "model": "Support Vector Machine (trained on FakeRom)",
+    "test_set": "test data from NEW",
+    "accuracy": 0.21027131782945738,
+    "precision": 0.40573353786489613,
+    "recall": 0.21027131782945738,
+    "f1_score": 0.08750199816091447,
+    "log_loss": 2.997264475661303,
+    "roc_auc_per_class": {
+      "fake_news": 0.5891536925055407,
+      "misinformation": 0.6442470364578186,
+      "propaganda": 0.5804979695845651,
+      "real_news": 0.48570234721313854,
+      "satire": 0.6326544849918899
+    },
+    "roc_auc_micro": 0.5437652109248242,
+    "roc_auc_macro": 0.5864511061505906,
+    "confusion_matrix": [
+      [2, 0, 2, 1, 222],
+      [1, 1, 4, 5, 198],
+      [2, 0, 7, 1, 179],
+      [0, 0, 0, 0, 198],
+      [2, 0, 0, 0, 207]
+    ]
+  },
+  {
+    "model": "Support Vector Machine (trained on FakeRom)",
+    "test_set": "test data from FakeRom and NEW",
+    "accuracy": 0.21635311143270622,
+    "precision": 0.4519199503475093,
+    "recall": 0.21635311143270622,
+    "f1_score": 0.10438704276226134,
+    "log_loss": 2.8254247632299614,
+    "roc_auc_per_class": {
+      "fake_news": 0.6142748529845304,
+      "misinformation": 0.6373076550533239,
+      "propaganda": 0.5975519584332534,
+      "real_news": 0.5076109086923453,
+      "satire": 0.6809296214174263
+    },
+    "roc_auc_micro": 0.5547182767481847,
+    "roc_auc_macro": 0.6075349993161759,
+    "confusion_matrix": [
+      [12, 0, 4, 3, 278],
+      [1, 3, 4, 6, 255],
+      [3, 1, 11, 2, 253],
+      [0, 0, 0, 1, 270],
+      [3, 0, 0, 0, 272]
+    ]
+  },
+  {
+    "model": "Multinomial Naive Bayes (trained on NEW)",
+    "test_set": "test data from FakeRom",
+    "accuracy": 0.32571428571428573,
+    "precision": 0.3364347514964107,
+    "recall": 0.32571428571428573,
+    "f1_score": 0.3131568013706517,
+    "log_loss": 1.4973855774006304,
+    "roc_auc_per_class": {
+      "fake_news": 0.7128061224489796,
+      "misinformation": 0.6531034482758621,
+      "propaganda": 0.6786451879388682,
+      "real_news": 0.6324118490678008,
+      "satire": 0.7416239863422963
+    },
+    "roc_auc_micro": 0.6666081632653063,
+    "roc_auc_macro": 0.6837181188147614,
+    "confusion_matrix": [
+      [30, 2, 29, 7, 2],
+      [32, 5, 12, 10, 1],
+      [23, 5, 41, 5, 7],
+      [25, 7, 11, 20, 10],
+      [14, 7, 16, 11, 18]
+    ]
+  },
+  {
+    "model": "Multinomial Naive Bayes (trained on NEW)",
+    "test_set": "test data from NEW",
+    "accuracy": 0.8333333333333334,
+    "precision": 0.8390706285545966,
+    "recall": 0.8333333333333334,
+    "f1_score": 0.8301332754200643,
+    "log_loss": 0.6535149342901212,
+    "roc_auc_per_class": {
+      "fake_news": 0.9438421758283855,
+      "misinformation": 0.9626875650409576,
+      "propaganda": 0.9697728570800932,
+      "real_news": 0.9729065232662355,
+      "satire": 0.9966454853581541
+    },
+    "roc_auc_micro": 0.969917579322156,
+    "roc_auc_macro": 0.9691709213147653,
+    "confusion_matrix": [
+      [151, 17, 33, 5, 21],
+      [8, 165, 10, 23, 3],
+      [3, 6, 163, 8, 9],
+      [3, 12, 7, 174, 2],
+      [0, 2, 0, 0, 207]
+    ]
+  },
+  {
+    "model": "Multinomial Naive Bayes (trained on NEW)",
+    "test_set": "test data from FakeRom and NEW",
+    "accuracy": 0.829232995658466,
+    "precision": 0.8345386283750181,
+    "recall": 0.829232995658466,
+    "f1_score": 0.8263870235995163,
+    "log_loss": 0.6514999281656317,
+    "roc_auc_per_class": {
+      "fake_news": 0.9516982420208226,
+      "misinformation": 0.9668466951906665,
+      "propaganda": 0.9656175059952039,
+      "real_news": 0.9642288952142446,
+      "satire": 0.9970403219183708
+    },
+    "roc_auc_micro": 0.9693520527518373,
+    "roc_auc_macro": 0.9690863320678617,
+    "confusion_matrix": [
+      [203, 18, 39, 8, 29],
+      [11, 208, 12, 34, 4],
+      [5, 6, 227, 17, 15],
+      [3, 18, 10, 235, 5],
+      [0, 2, 0, 0, 273]
+    ]
+  },
+  {
+    "model": "Logistic Regression (trained on NEW)",
+    "test_set": "test data from FakeRom",
+    "accuracy": 0.29714285714285715,
+    "precision": 0.29480750356561464,
+    "recall": 0.29714285714285715,
+    "f1_score": 0.2752387390243051,
+    "log_loss": 1.5115732993832887,
+    "roc_auc_per_class": {
+      "fake_news": 0.6940816326530612,
+      "misinformation": 0.6340229885057471,
+      "propaganda": 0.6784616090687963,
+      "real_news": 0.6401760545967065,
+      "satire": 0.6606380708493385
+    },
+    "roc_auc_micro": 0.6561346938775511,
+    "roc_auc_macro": 0.6614760711347298,
+    "confusion_matrix": [
+      [25, 0, 32, 9, 4],
+      [24, 2, 10, 11, 13],
+      [18, 1, 36, 9, 17],
+      [13, 3, 11, 16, 30],
+      [16, 1, 5, 19, 25]
+    ]
+  },
+  {
+    "model": "Logistic Regression (trained on NEW)",
+    "test_set": "test data from NEW",
+    "accuracy": 0.9040697674418605,
+    "precision": 0.9054380328529739,
+    "recall": 0.9040697674418605,
+    "f1_score": 0.9028624530974213,
+    "log_loss": 0.579424044555945,
+    "roc_auc_per_class": {
+      "fake_news": 0.9669685610310013,
+      "misinformation": 0.9903143476718972,
+      "propaganda": 0.9890225762111883,
+      "real_news": 0.9788411694886514,
+      "satire": 0.9995232752155435
+    },
+    "roc_auc_micro": 0.9859615839643051,
+    "roc_auc_macro": 0.9849339859236563,
+    "confusion_matrix": [
+      [180, 17, 17, 4, 9],
+      [4, 194, 2, 9, 0],
+      [3, 0, 178, 6, 2],
+      [6, 11, 8, 172, 1],
+      [0, 0, 0, 0, 209]
+    ]
+  },
+  {
+    "model": "Logistic Regression (trained on NEW)",
+    "test_set": "test data from FakeRom and NEW",
+    "accuracy": 0.9088277858176556,
+    "precision": 0.9103357936506943,
+    "recall": 0.9088277858176556,
+    "f1_score": 0.9079376280179607,
+    "log_loss": 0.5804251329134147,
+    "roc_auc_per_class": {
+      "fake_news": 0.973793231857748,
+      "misinformation": 0.9909150726293183,
+      "propaganda": 0.988968824940048,
+      "real_news": 0.973820998335996,
+      "satire": 0.9996518025786318
+    },
+    "roc_auc_micro": 0.9861895028283848,
+    "roc_auc_macro": 0.9854299860683484,
+    "confusion_matrix": [
+      [242, 18, 22, 5, 10],
+      [4, 252, 3, 10, 0],
+      [4, 0, 253, 11, 2],
+      [6, 19, 10, 234, 2],
+      [0, 0, 0, 0, 275]
+    ]
+  },
+  {
+    "model": "Support Vector Machine (trained on NEW)",
+    "test_set": "test data from FakeRom",
+    "accuracy": 0.2857142857142857,
+    "precision": 0.29852289866598936,
+    "recall": 0.2857142857142857,
+    "f1_score": 0.2593734649767844,
+    "log_loss": 1.916204713438175,
+    "roc_auc_per_class": {
+      "fake_news": 0.5939285714285715,
+      "misinformation": 0.6664942528735632,
+      "propaganda": 0.6889256046629033,
+      "real_news": 0.6290490084565551,
+      "satire": 0.6172641912078531
+    },
+    "roc_auc_micro": 0.618422448979592,
+    "roc_auc_macro": 0.6391323257258892,
+    "confusion_matrix": [
+      [40, 3, 24, 1, 2],
+      [30, 3, 10, 8, 9],
+      [32, 4, 33, 5, 7],
+      [37, 2, 13, 11, 10],
+      [36, 2, 6, 9, 13]
+    ]
+  },
+  {
+    "model": "Support Vector Machine (trained on NEW)",
+    "test_set": "test data from NEW",
+    "accuracy": 0.9437984496124031,
+    "precision": 0.945841588422451,
+    "recall": 0.9437984496124031,
+    "f1_score": 0.9434708583280177,
+    "log_loss": 0.15790092104449863,
+    "roc_auc_per_class": {
+      "fake_news": 0.9893397542889977,
+      "misinformation": 0.9981221694465923,
+      "propaganda": 0.9954998211225969,
+      "real_news": 0.9951493350773927,
+      "satire": 0.9999883725662326
+    },
+    "roc_auc_micro": 0.9963909264016586,
+    "roc_auc_macro": 0.9956198905003625,
+    "confusion_matrix": [
+      [207, 4, 15, 0, 1],
+      [3, 204, 0, 2, 0],
+      [3, 2, 184, 0, 0],
+      [10, 12, 6, 170, 0],
+      [0, 0, 0, 0, 209]
+    ]
+  },
+  {
+    "model": "Support Vector Machine (trained on NEW)",
+    "test_set": "test data from FakeRom and NEW",
+    "accuracy": 0.9464544138929089,
+    "precision": 0.948288399058359,
+    "recall": 0.9464544138929089,
+    "f1_score": 0.9461371987137985,
+    "log_loss": 0.14577251067170688,
+    "roc_auc_per_class": {
+      "fake_news": 0.9918881596300951,
+      "misinformation": 0.9983667171013737,
+      "propaganda": 0.996123101518785,
+      "real_news": 0.9956025122807484,
+      "satire": 0.9999934302373327
+    },
+    "roc_auc_micro": 0.9970429451643102,
+    "roc_auc_macro": 0.9963947841536671,
+    "confusion_matrix": [
+      [271, 4, 21, 0, 1],
+      [3, 263, 0, 3, 0],
+      [3, 2, 264, 1, 0],
+      [11, 19, 6, 235, 0],
+      [0, 0, 0, 0, 275]
+    ]
+  },
+  {
+    "model": "BERT (trained on FakeRom)",
+    "test_set": "test data from FakeRom",
+    "accuracy": 0.9285714285714286,
+    "precision": 0.9306474081661625,
+    "recall": 0.9285714285714286,
+    "f1_score": 0.9283267159765325,
+    "log_loss": 0.29363085970971853,
+    "roc_auc_per_class": {
+      "fake_news": 0.9971938775510204,
+      "misinformation": 0.9924712643678161,
+      "propaganda": 0.9845793749139474,
+      "real_news": 0.9779437218733,
+      "satire": 0.9958920187793429
+    },
+    "roc_auc_micro": 0.9893632653061224,
+    "roc_auc_macro": 0.9896160514970853,
+    "confusion_matrix": [
+      [67, 0, 3, 0, 0],
+      [0, 60, 0, 0, 0],
+      [4, 0, 75, 2, 0],
+      [0, 5, 3, 63, 2],
+      [2, 0, 4, 0, 60]
+    ]
+  },
+  {
+    "model": "BERT (trained on FakeRom)",
+    "test_set": "test data from NEW",
+    "accuracy": 0.6521317829457365,
+    "precision": 0.685209859349177,
+    "recall": 0.6521317829457365,
+    "f1_score": 0.6337523037526854,
+    "log_loss": 1.9461204008091282,
+    "roc_auc_per_class": {
+      "fake_news": 0.7951788108463074,
+      "misinformation": 0.7823518810280976,
+      "propaganda": 0.8893533424968776,
+      "real_news": 0.8943875202868008,
+      "satire": 0.990116681297854
+    },
+    "roc_auc_micro": 0.8590559931043806,
+    "roc_auc_macro": 0.8702776471911875,
+    "confusion_matrix": [
+      [90, 9, 55, 57, 16],
+      [20, 82, 52, 37, 18],
+      [7, 2, 136, 35, 9],
+      [2, 11, 11, 157, 17],
+      [1, 0, 0, 0, 208]
+    ]
+  },
+  {
+    "model": "BERT (trained on FakeRom)",
+    "test_set": "test data from FakeRom and NEW",
+    "accuracy": 0.7221418234442837,
+    "precision": 0.7444780647210559,
+    "recall": 0.7221418234442837,
+    "f1_score": 0.714310188179145,
+    "log_loss": 1.5276172608780187,
+    "roc_auc_per_class": {
+      "fake_news": 0.8506695216372635,
+      "misinformation": 0.8447212229915463,
+      "propaganda": 0.924683586464162,
+      "real_news": 0.9231436058735025,
+      "satire": 0.9879214913361254
+    },
+    "roc_auc_micro": 0.9003494379881084,
+    "roc_auc_macro": 0.90622788566052,
+    "confusion_matrix": [
+      [157, 9, 58, 57, 16],
+      [20, 142, 52, 37, 18],
+      [11, 2, 211, 37, 9],
+      [2, 16, 14, 220, 19],
+      [3, 0, 4, 0, 268]
+    ]
+  },
+  {
+    "model": "BERT (trained on NEW)",
+    "test_set": "test data from FakeRom",
+    "accuracy": 0.9942857142857143,
+    "precision": 0.9943673958987834,
+    "recall": 0.9942857142857143,
+    "f1_score": 0.9942666023633676,
+    "log_loss": 0.04059979957949818,
+    "roc_auc_per_class": {
+      "fake_news": 1.0,
+      "misinformation": 0.9996551724137931,
+      "propaganda": 0.999908210564964,
+      "real_news": 0.9994065575391919,
+      "satire": 1.0
+    },
+    "roc_auc_micro": 0.9996020408163265,
+    "roc_auc_macro": 0.9997939881035899,
+    "confusion_matrix": [
+      [70, 0, 0, 0, 0],
+      [0, 60, 0, 0, 0],
+      [0, 0, 81, 0, 0],
+      [0, 1, 1, 71, 0],
+      [0, 0, 0, 0, 66]
+    ]
+  },
+  {
+    "model": "BERT (trained on NEW)",
+    "test_set": "test data from NEW",
+    "accuracy": 0.9554263565891473,
+    "precision": 0.9584256371587929,
+    "recall": 0.9554263565891473,
+    "f1_score": 0.9556851920962822,
+    "log_loss": 0.24680464560227747,
+    "roc_auc_per_class": {
+      "fake_news": 0.9949051905765178,
+      "misinformation": 0.9976163760777177,
+      "propaganda": 0.9975710331582217,
+      "real_news": 0.9931509337984159,
+      "satire": 1.0
+    },
+    "roc_auc_micro": 0.9968150952466799,
+    "roc_auc_macro": 0.9966487067221745,
+    "confusion_matrix": [
+      [204, 3, 16, 4, 0],
+      [0, 203, 5, 1, 0],
+      [2, 0, 187, 0, 0],
+      [4, 2, 9, 183, 0],
+      [0, 0, 0, 0, 209]
+    ]
+  },
+  {
+    "model": "BERT (trained on NEW)",
+    "test_set": "test data from FakeRom and NEW",
+    "accuracy": 0.9652677279305355,
+    "precision": 0.9670121150631439,
+    "recall": 0.9652677279305355,
+    "f1_score": 0.965386890538528,
+    "log_loss": 0.19458200008276028,
+    "roc_auc_per_class": {
+      "fake_news": 0.9963847383202222,
+      "misinformation": 0.9981830145258637,
+      "propaganda": 0.9983180122568611,
+      "real_news": 0.9946658872529319,
+      "satire": 1.0
+    },
+    "roc_auc_micro": 0.9976082163478756,
+    "roc_auc_macro": 0.9975103304711759,
+    "confusion_matrix": [
+      [274, 3, 16, 4, 0],
+      [0, 263, 5, 1, 0],
+      [2, 0, 268, 0, 0],
+      [4, 3, 10, 254, 0],
+      [0, 0, 0, 0, 275]
+    ]
+  },
+  {
+    "model": "RoBERTaLarge (trained on FakeRom)",
+    "test_set": "test data from FakeRom",
+    "accuracy": 0.74,
+    "precision": 0.7838839441868858,
+    "recall": 0.74,
+    "f1_score": 0.7252236233816196,
+    "log_loss": 0.6363334483289635,
+    "roc_auc_per_class": {
+      "fake_news": 0.9188775510204081,
+      "misinformation": 0.9606896551724138,
+      "propaganda": 0.929643398044885,
+      "real_news": 0.9575688640522229,
+      "satire": 0.9887964148527529
+    },
+    "roc_auc_micro": 0.9459204081632652,
+    "roc_auc_macro": 0.9511151766285366,
+    "confusion_matrix": [
+      [24, 2, 44, 0, 0],
+      [0, 54, 0, 3, 3],
+      [2, 0, 79, 0, 0],
+      [0, 24, 4, 45, 0],
+      [5, 3, 1, 0, 57]
+    ]
+  },
+  {
+    "model": "RoBERTaLarge (trained on FakeRom)",
+    "test_set": "test data from NEW",
+    "accuracy": 0.5494186046511628,
+    "precision": 0.6441795107201193,
+    "recall": 0.5494186046511628,
+    "f1_score": 0.5158767427852268,
+    "log_loss": 1.0652707205173557,
+    "roc_auc_per_class": {
+      "fake_news": 0.7865871343749145,
+      "misinformation": 0.7452312987262146,
+      "propaganda": 0.8566407451342208,
+      "real_news": 0.8968764382433446,
+      "satire": 0.9928781968175714
+    },
+    "roc_auc_micro": 0.8596092670212127,
+    "roc_auc_macro": 0.8556427626592532,
+    "confusion_matrix": [
+      [33, 41, 138, 1, 14],
+      [1, 105, 73, 9, 21],
+      [3, 22, 159, 2, 3],
+      [3, 86, 32, 68, 9],
+      [5, 2, 0, 0, 202]
+    ]
+  },
+  {
+    "model": "RoBERTaLarge (trained on FakeRom)",
+    "test_set": "test data from FakeRom and NEW",
+    "accuracy": 0.597684515195369,
+    "precision": 0.6801065341785569,
+    "recall": 0.597684515195369,
+    "f1_score": 0.5712996936712845,
+    "log_loss": 0.9566397181424363,
+    "roc_auc_per_class": {
+      "fake_news": 0.8240189917609272,
+      "misinformation": 0.8049446053233666,
+      "propaganda": 0.880718758326672,
+      "real_news": 0.9135847164052199,
+      "satire": 0.9901453559990144
+    },
+    "roc_auc_micro": 0.8851421574889891,
+    "roc_auc_macro": 0.8826824855630401,
+    "confusion_matrix": [
+      [57, 43, 182, 1, 14],
+      [1, 159, 73, 12, 24],
+      [5, 22, 238, 2, 3],
+      [3, 110, 36, 113, 9],
+      [10, 5, 1, 0, 259]
+    ]
+  },
+  {
+    "model": "RoBERTaLarge (trained on NEW)",
+    "test_set": "test data from FakeRom",
+    "accuracy": 0.9628571428571429,
+    "precision": 0.9628859460631533,
+    "recall": 0.9628571428571429,
+    "f1_score": 0.9628315216246681,
+    "log_loss": 0.15575987027596438,
+    "roc_auc_per_class": {
+      "fake_news": 0.9974489795918368,
+      "misinformation": 0.9957471264367816,
+      "propaganda": 0.9975216852540272,
+      "real_news": 0.9927797833935018,
+      "satire": 1.0
+    },
+    "roc_auc_micro": 0.997069387755102,
+    "roc_auc_macro": 0.9966995149352295,
+    "confusion_matrix": [
+      [66, 0, 2, 1, 1],
+      [0, 57, 0, 3, 0],
+      [3, 0, 78, 0, 0],
+      [1, 2, 0, 70, 0],
+      [0, 0, 0, 0, 66]
+    ]
+  },
+  {
+    "model": "RoBERTaLarge (trained on NEW)",
+    "test_set": "test data from NEW",
+    "accuracy": 0.937984496124031,
+    "precision": 0.9422167810582771,
+    "recall": 0.937984496124031,
+    "f1_score": 0.9382586404286183,
+    "log_loss": 0.28788409388953384,
+    "roc_auc_per_class": {
+      "fake_news": 0.98849153145265,
+      "misinformation": 0.9920526490200979,
+      "propaganda": 0.9943700691031652,
+      "real_news": 0.9890511832957877,
+      "satire": 1.0
+    },
+    "roc_auc_micro": 0.9936050736884803,
+    "roc_auc_macro": 0.9927930865743402,
+    "confusion_matrix": [
+      [193, 4, 26, 3, 1],
+      [0, 200, 5, 4, 0],
+      [5, 0, 184, 0, 0],
+      [5, 3, 8, 182, 0],
+      [0, 0, 0, 0, 209]
+    ]
+  },
+  {
+    "model": "RoBERTaLarge (trained on NEW)",
+    "test_set": "test data from FakeRom and NEW",
+    "accuracy": 0.9442836468885673,
+    "precision": 0.9463190399545892,
+    "recall": 0.9442836468885673,
+    "f1_score": 0.9443099012336482,
+    "log_loss": 0.25442282162849955,
+    "roc_auc_per_class": {
+      "fake_news": 0.9905475647411132,
+      "misinformation": 0.9928690000233804,
+      "propaganda": 0.9950406341593392,
+      "real_news": 0.9897668733663034,
+      "satire": 1.0
+    },
+    "roc_auc_micro": 0.9944827647592259,
+    "roc_auc_macro": 0.9936448144580272,
+    "confusion_matrix": [
+      [259, 4, 28, 4, 2],
+      [0, 257, 5, 7, 0],
+      [8, 0, 262, 0, 0],
+      [6, 5, 8, 252, 0],
+      [0, 0, 0, 0, 275]
+    ]
+  }
+]

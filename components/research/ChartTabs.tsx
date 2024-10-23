@@ -1,7 +1,6 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import results_fakero from "@/components/docs/results_fake_ro.json";
-import results_mine from "@/components/docs/results_mine.json";
+import all_results from "@/components/research/1_results_all_models.json";
 import { findIndex, forEach } from "lodash";
 import { Key, useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
@@ -71,13 +70,17 @@ const ChartTabs = () => {
           label: "Log. Regression",
           color: "hsl(var(--chart-2))",
         },
-        "Naive Bayes": {
+        "Multinomial Naive Bayes": {
           label: "Naive Bayes",
           color: "hsl(var(--chart-3))",
         },
         "Support Vector Machine": {
           label: "SVM",
           color: "hsl(var(--chart-4))",
+        },
+        RoBERTaLarge: {
+          label: "RoBERTa",
+          color: "hsl(var(--chart-5))",
         },
       };
     });
@@ -88,20 +91,34 @@ const ChartTabs = () => {
     const metricsChartData: any = {};
     forEach(evaluationDescription, (item) => {
       metricsChartData[item.type] = {
-        fakero: results_fakero.map((model) => {
-          return {
-            model: model.Model,
-            value: model[item.type as keyof typeof model],
-            fill: config[item.type][model.Model as keyof typeof config].color,
-          };
-        }),
-        mine: results_mine.map((model) => {
-          return {
-            model: model.Model,
-            value: model[item.type as keyof typeof model],
-            fill: config[item.type][model.Model as keyof typeof config].color,
-          };
-        }),
+        fakero: all_results
+          .filter((m) => m.model.includes("FakeRom"))
+          .map((model) => {
+            return {
+              model: model.model.replace("(trained on FakeRom)", "").trim(),
+              value: model[item.type as keyof typeof model],
+              testData: model.test_set,
+              fill: config[item.type][
+                model.model
+                  .replace("(trained on FakeRom)", "")
+                  .trim() as keyof typeof config
+              ]?.color,
+            };
+          }),
+        mine: all_results
+          .filter((m) => m.model.includes("NEW"))
+          .map((model) => {
+            return {
+              model: model.model.replace("(trained on NEW)", "").trim(),
+              testData: model.test_set,
+              value: model[item.type as keyof typeof model],
+              fill: config[item.type][
+                model.model
+                  .replace("(trained on NEW)", "")
+                  .trim() as keyof typeof config
+              ]?.color,
+            };
+          }),
       };
     });
     return metricsChartData;
@@ -162,10 +179,11 @@ const ChartTabs = () => {
                       cursor={false}
                       content={
                         <ChartTooltipContent
-                          hideLabel
                           valueFormatter={(value) =>
                             `${(value * 100).toFixed(2)}%`
                           }
+                          indicator="line"
+                          labelFromDataKey="testData"
                         />
                       }
                     />
@@ -251,6 +269,15 @@ const ChartTabs = () => {
                             config[tab][item.model as keyof typeof config]
                               ?.label
                           }
+                          <br />
+                          <p className="text-xs mt-2">
+                            <span className="text-gray-500">
+                              Test data from:
+                            </span>{" "}
+                            <span style={{ color: item.fill }}>
+                              {item.testData.replace("test data from", "")}
+                            </span>
+                          </p>
                         </TableCell>
                         <TableCell>{(item.value * 100).toFixed(2)}%</TableCell>
                       </TableRow>
@@ -282,6 +309,8 @@ const ChartTabs = () => {
                           valueFormatter={(value) =>
                             `${(value * 100).toFixed(2)}%`
                           }
+                          indicator="line"
+                          labelFromDataKey="testData"
                         />
                       }
                     />
@@ -362,6 +391,15 @@ const ChartTabs = () => {
                             config[tab][item.model as keyof typeof config]
                               ?.label
                           }
+                          <br />
+                          <p className="text-xs mt-2">
+                            <span className="text-gray-500">
+                              Test data from:
+                            </span>{" "}
+                            <span style={{ color: item.fill }}>
+                              {item.testData.replace("test data from", "")}
+                            </span>
+                          </p>
                         </TableCell>
                         <TableCell>{(item.value * 100).toFixed(2)}%</TableCell>
                       </TableRow>
