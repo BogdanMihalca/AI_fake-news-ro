@@ -6,7 +6,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { getUserFromDb, isSamePassword } from "./app/api/auth/utils";
 import { v4 as uuid } from "uuid";
 import { encode as defaultEncode } from "next-auth/jwt";
-import { cookies } from "next/headers";
 import prisma from "./lib/prisma";
 
 export const options: NextAuthConfig = {
@@ -52,12 +51,6 @@ export const options: NextAuthConfig = {
       session.user = user;
       return session;
     },
-    async jwt({ token, account }) {
-      if (account?.provider === "credentials") {
-        token.credentials = true;
-      }
-      return token;
-    },
   },
   jwt: {
     encode: async function (params) {
@@ -70,14 +63,6 @@ export const options: NextAuthConfig = {
             expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
           },
         });
-
-        const cks = cookies();
-        cks.set({
-          name: "next-auth.session-token",
-          value: sessionToken,
-          expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-        });
-
         return sessionToken;
       }
       return defaultEncode(params);
