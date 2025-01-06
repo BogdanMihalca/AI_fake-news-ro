@@ -163,6 +163,8 @@ const preprocessText = (text: string) => {
 };
 
 const validateUrlForMaliciousContent = async (url: string) => {
+  console.log("GOOGLE_SAFE_BROWSING_API_KEY:", process.env);
+
   const urll = new URL(url);
   if (!urll.protocol.startsWith("http")) {
     return "Invalid URL";
@@ -177,7 +179,7 @@ const validateUrlForMaliciousContent = async (url: string) => {
     //if the url is malicious return error
     //else return success
     const response = await fetch(
-      `https://safebrowsing.googleapis.com/v5/threatMatches:find?key=${process.env.GOOGLE_SAFE_BROWSING_API_KEY}`,
+      `https://safebrowsing.googleapis.com/v5/threatMatches:find?key=${process.env.NEXT_PUBLIC_GOOGLE_SAFE_BROWSING_API_KEY}`,
       {
         method: "POST",
         headers: {
