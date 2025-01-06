@@ -45,7 +45,6 @@ interface BlackboxResultsProps {
 }
 
 const BlackboxResults: FC<BlackboxResultsProps> = ({ result, ready }) => {
-  console.log("result/ready inside-------------------->", result, ready);
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [isSendingFeedback, setIsSendingFeedback] = useState(false);
 
@@ -127,7 +126,7 @@ const BlackboxResults: FC<BlackboxResultsProps> = ({ result, ready }) => {
     <div className="flex flex-col items-center justify-center mt-4 md:mt-0">
       {ready === false ? (
         <BalckboxResultsSkeleton />
-      ) : ready === null || !result?.results ? (
+      ) : ready === null ? (
         <div className="flex items-center justify-center md:p-10 lg:p-20">
           <Alert>
             <Terminal className="h-4 w-4" />
@@ -217,9 +216,9 @@ const BlackboxResults: FC<BlackboxResultsProps> = ({ result, ready }) => {
               </CardDescription>
               <CardDescription>
                 <span className="font-bold">Probability of:</span>{" "}
-                {((maxBy(result.results, "score") as any)?.score * 100).toFixed(
-                  2
-                )}
+                {(
+                  (maxBy(result?.results, "score") as any)?.score * 100
+                ).toFixed(2)}
                 %
               </CardDescription>
             </CardFooter>

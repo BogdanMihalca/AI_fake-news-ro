@@ -2,11 +2,7 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  getContent,
-  preprocessText,
-  validateUrlForMaliciousContent,
-} from "./util";
+import { preprocessText, validateUrlForMaliciousContent } from "./util";
 
 // Define types for result and API response
 interface Result {
@@ -66,6 +62,7 @@ const useBlackBoxMagic = () => {
         setReady(true);
         break;
       case "complete":
+        setReady(true);
         setResult(e.data.output);
         logMessage("SUCCESS", "Result received:", e.data.output);
         break;
@@ -83,11 +80,10 @@ const useBlackBoxMagic = () => {
         });
         return;
       }
-
-      const preprocessed = preprocessText(text);
-
+      setReady(false);
       try {
         if (type === "text") {
+          const preprocessed = preprocessText(text);
           logMessage("INFO", "Attempting to get result from text: ", text);
           if (worker.current) {
             worker.current.postMessage({ text: preprocessed });
@@ -99,17 +95,17 @@ const useBlackBoxMagic = () => {
           if (maliciousError) {
             throw new Error(maliciousError);
           }
-          const response = await fetch(text);
-          if (!response.ok) {
-            throw new Error("Error fetching the URL");
-          }
-          const html = await response.text();
+          const response = await fetch("/api/grabWebArticle", {
+            method: "POST",
+            headers: {
+              "Content-Type": "text/html",
+            },
+            body: JSON.stringify({ url: text }),
+          });
 
-          const articleContent = getContent(html);
-          if (articleContent.length < 50) {
-            throw new Error("Article content too short");
-          }
-          const preprocessed = preprocessText(articleContent);
+          const data = await response.json();
+
+          const preprocessed = preprocessText(data.content);
 
           if (worker.current) {
             worker.current.postMessage({ text: preprocessed });
