@@ -9,20 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "../ui/use-toast";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
+import { Form } from "../ui/form";
 import { useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -149,11 +141,11 @@ export function LoginButton() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle>Register</DialogTitle>
+              <DialogTitle>Login / Register</DialogTitle>
               <DialogDescription></DialogDescription>
             </DialogHeader>
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
@@ -196,14 +188,11 @@ export function LoginButton() {
                   <FormMessage className="text-right" />
                 </>
               )}
-            />
+            /> */}
 
             <DialogFooter className="block text-center">
-              <Button className="mt-5 mb-5 w-" type="submit">
-                Login
-              </Button>
               <Separator />
-              <p className="mt-3">or</p>
+
               <Button
                 variant="outline"
                 type="button"

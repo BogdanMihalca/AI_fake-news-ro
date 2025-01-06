@@ -24,7 +24,7 @@ import {
 import { Icons } from "../common/Icons";
 import { Separator } from "../ui/separator";
 import { LoginButton } from "./LoginButton";
-import { RegisterButton } from "./RegisterButton";
+// import { RegisterButton } from "./RegisterButton";
 
 const components: {
   title: string;
@@ -173,7 +173,7 @@ const Navbar = () => {
         <NavigationMenuList>
           <NavigationMenuItem>
             <LoginButton />
-            <RegisterButton />
+            {/* <RegisterButton /> */}
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
