@@ -11,6 +11,7 @@ import Link from "next/link";
 
 export default function Home() {
   const { result, ready, blackboxify, reset } = useBlackBoxMagic();
+  console.log("result/ready-------------------->", result, ready);
 
   const handleOnSubmit = (data: FormSchemaType) => {
     const type = data.type === "free_text" ? "text" : "url";

@@ -1,5 +1,4 @@
 "use client";
-
 import { map, maxBy } from "lodash";
 import { FC, useEffect, useState } from "react";
 import { Terminal, PieChart } from "lucide-react";
@@ -46,6 +45,7 @@ interface BlackboxResultsProps {
 }
 
 const BlackboxResults: FC<BlackboxResultsProps> = ({ result, ready }) => {
+  console.log("result/ready inside-------------------->", result, ready);
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [isSendingFeedback, setIsSendingFeedback] = useState(false);
 

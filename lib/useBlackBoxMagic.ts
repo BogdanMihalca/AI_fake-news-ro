@@ -1,5 +1,12 @@
+"use client";
+
 import { useToast } from "@/components/ui/use-toast";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  getContent,
+  preprocessText,
+  validateUrlForMaliciousContent,
+} from "./util";
 
 // Define types for result and API response
 interface Result {
@@ -13,6 +20,8 @@ interface APIResponse {
 }
 
 const useBlackBoxMagic = () => {
+  const worker = useRef<any>(null);
+
   const [result, setResult] = useState<APIResponse>();
   const [ready, setReady] = useState<boolean | null>(null);
   const { toast } = useToast();
@@ -31,62 +40,93 @@ const useBlackBoxMagic = () => {
     );
   };
 
-  const blackboxify = async (text: string, type: "text" | "url") => {
-    if (!text) {
-      logMessage("ERROR", "Text missing");
-      toast({
-        title: "Text missing",
-        description: "Please enter some text or a URL",
-        variant: "destructive",
+  useEffect(() => {
+    if (!worker.current) {
+      // Create the worker if it does not yet exist.
+      worker.current = new Worker(new URL("./worker.js", import.meta.url), {
+        type: "module",
       });
-      return;
     }
 
-    setReady(false);
+    // Attach the callback function as an event listener.
+    worker.current.addEventListener("message", onMessageReceived);
 
-    try {
-      let response = null;
-      if (type === "text") {
-        logMessage("INFO", "Attempting to get result from text: ", text);
-        response = await fetch(`/api/blackboxmagic`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ text }),
-        });
-      } else {
-        logMessage("INFO", "Attempting to get result from URL: ", text);
-        response = await fetch(`/api/blackboxmagic`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ url: text }),
-        });
-      }
+    // Define a cleanup function for when the component is unmounted.
+    return () =>
+      worker.current.removeEventListener("message", onMessageReceived);
+  });
 
-      if (!response.ok) {
-        throw new Error(
-          `Server error: ${response.status}, ${response.statusText}`
-        );
-      }
-
-      const json: APIResponse = await response.json();
-      setResult(json);
-      logMessage("SUCCESS", "Result success:", json);
-    } catch (error: any) {
-      logMessage("ERROR", "Error getting result:", error);
-      toast({
-        title: "Error getting result",
-        description: error.message as string,
-        variant: "destructive",
-      });
-      setResult(undefined);
-    } finally {
-      setReady(true);
+  // Create a callback function for messages from the worker thread.
+  const onMessageReceived = (e: any) => {
+    switch (e.data.status) {
+      case "initiate":
+        setReady(false);
+        break;
+      case "ready":
+        setReady(true);
+        break;
+      case "complete":
+        setResult(e.data.output);
+        logMessage("SUCCESS", "Result received:", e.data.output);
+        break;
     }
   };
+
+  const blackboxify = useCallback(
+    async (text: string, type: "text" | "url") => {
+      if (!text) {
+        logMessage("ERROR", "Text missing");
+        toast({
+          title: "Text missing",
+          description: "Please enter some text or a URL",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const preprocessed = preprocessText(text);
+
+      try {
+        if (type === "text") {
+          logMessage("INFO", "Attempting to get result from text: ", text);
+          if (worker.current) {
+            worker.current.postMessage({ text: preprocessed });
+          }
+        } else {
+          logMessage("INFO", "Attempting to get result from URL: ", text);
+          //check the url for malicious content
+          const maliciousError = await validateUrlForMaliciousContent(text);
+          if (maliciousError) {
+            throw new Error(maliciousError);
+          }
+          const response = await fetch(text);
+          if (!response.ok) {
+            throw new Error("Error fetching the URL");
+          }
+          const html = await response.text();
+
+          const articleContent = getContent(html);
+          if (articleContent.length < 50) {
+            throw new Error("Article content too short");
+          }
+          const preprocessed = preprocessText(articleContent);
+
+          if (worker.current) {
+            worker.current.postMessage({ text: preprocessed });
+          }
+        }
+      } catch (error: any) {
+        logMessage("ERROR", "Error getting result:", error);
+        toast({
+          title: "Error getting result",
+          description: error.message as string,
+          variant: "destructive",
+        });
+        setResult(undefined);
+      }
+    },
+    [toast]
+  );
 
   const reset = () => {
     setResult(undefined);
