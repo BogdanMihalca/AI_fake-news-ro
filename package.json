@@ -11,7 +11,7 @@
     "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^2.7.4",
+    "@auth/prisma-adapter": "^2.11.3",
     "@hookform/resolvers": "^3.4.2",
     "@huggingface/transformers": "^3.2.4",
     "@neondatabase/serverless": "^0.9.5",
@@ -49,7 +49,7 @@
     "lodash": "^4.18.1",
     "lucide-react": "^0.368.0",
     "next": "^16.2.6",
-    "next-auth": "^5.0.0-beta.25",
+    "next-auth": "^5.0.0-beta.32",
     "query-string": "^9.1.0",
     "react": "^18",
     "react-code-blocks": "^0.1.6",
